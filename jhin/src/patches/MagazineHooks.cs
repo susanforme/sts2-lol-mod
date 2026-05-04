@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Nodes.Ftue;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Localization;
+using jhin.Actions;
 using jhin.Cards;
 using jhin.Magazine;
 using jhin.Powers;
@@ -45,6 +46,8 @@ public static class PlayerAfterCombatEndPatch
 
         JhinMagazineStateRegistry.TryGet(__instance)?.DetachPower();
         JhinMagazineStateRegistry.Clear(__instance);
+        FlourishContext.End();
+        FlourishEventBus.ClearListeners();
     }
 }
 

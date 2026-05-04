@@ -1,0 +1,6 @@
+{
+  "JHIN-BULLET.title": "子弹",
+  "JHIN-BULLET.description": "烬枪膛中倒数的四声。多数射击牌会消耗 1 层子弹；子弹耗尽后，将在下回合重新装填。",
+  "JHIN-FLOURISH.title": "华彩",
+  "JHIN-FLOURISH.description": "当一张射击牌真实消耗最后 1 层子弹时触发。华彩会结算该牌的华彩效果，并触发相关的遗物、能力牌与额外效果。"
+}

@@ -1,5 +1,5 @@
 {
   "JHIN-WHISPER.title": "低语",
-  "JHIN-WHISPER.description": "烬的专属起始遗物。当前阶段仅提供最小可运行挂接。",
+  "JHIN-WHISPER.description": "在每场战斗开始时，获得 4 层[gold]子弹[/gold]。当[gold]华彩[/gold]触发时，本次攻击伤害提高 50%。若目标生命值低于 25%，额外造成 6 点伤害。",
   "JHIN-WHISPER.flavor": "每一次扣动扳机，都是对完美的追求。"
 }

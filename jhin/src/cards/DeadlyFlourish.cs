@@ -21,16 +21,21 @@ public class DeadlyFlourish() : AbstractShootCard(
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
+        HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (!TryConsumeBullet())
+        if (!TryShoot(choiceContext))
         {
             return;
         }
 
         await CommonActions.CardAttack(this, cardPlay.Target).Execute(choiceContext);
+        EndFlourishContext();
     }
 
     protected override void OnUpgrade()

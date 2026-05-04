@@ -1,0 +1,6 @@
+{
+  "JHIN-BULLET.title": "Bullets",
+  "JHIN-BULLET.description": "Jhin's firing resource. Most shoot cards spend 1 Bullet; when Bullets reach 0, the magazine must be reloaded.",
+  "JHIN-FLOURISH.title": "Flourish",
+  "JHIN-FLOURISH.description": "Triggers when a shoot card truly spends the last Bullet. Flourish resolves that card's flourish effect and triggers related relic, skill, and Power effects."
+}

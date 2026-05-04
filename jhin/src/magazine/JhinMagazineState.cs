@@ -26,14 +26,23 @@ public sealed class JhinMagazineState
 
     public void StartTurn()
     {
-        if (Bullets == 0)
+        bool reloaded = Bullets == 0;
+        if (reloaded)
         {
             Bullets = MaxBullets;
         }
 
         FlourishCountThisTurn = 0;
         UsedShootThisTurn = false;
-        SyncPower();
+
+        if (reloaded)
+        {
+            SyncPowerForce();
+        }
+        else
+        {
+            SyncPower();
+        }
     }
 
     public bool CanShoot()
@@ -54,10 +63,34 @@ public sealed class JhinMagazineState
         return true;
     }
 
+    /// <summary>
+    /// Consumes one bullet and returns whether this was the last bullet (flourish triggered).
+    /// </summary>
+    public bool TryConsumeBulletAndCheckFlourish()
+    {
+        if (Bullets <= 0)
+        {
+            return false;
+        }
+
+        bool wasLastBullet = Bullets == 1;
+        Bullets--;
+        UsedShootThisTurn = true;
+
+        if (wasLastBullet)
+        {
+            FlourishCountThisTurn++;
+            FlourishCountThisCombat++;
+        }
+
+        SyncPower();
+        return wasLastBullet;
+    }
+
     public void ReloadToFull()
     {
         Bullets = MaxBullets;
-        SyncPower();
+        SyncPowerForce();
     }
 
     public void AttachPower(BulletPower power)
@@ -74,6 +107,21 @@ public sealed class JhinMagazineState
     private void SyncPower()
     {
         AppliedPower?.SyncFrom(this);
+    }
+
+    /// <summary>
+    /// Forces a Power notification even if the Amount hasn't changed,
+    /// ensuring CombatStateTracker picks up the state change.
+    /// </summary>
+    private void SyncPowerForce()
+    {
+        if (AppliedPower is null) return;
+        // Temporarily set a different value (silent) so the real SetAmount always has delta != 0.
+        if (AppliedPower.Amount == Bullets)
+        {
+            AppliedPower.SetAmount(Bullets > 0 ? Bullets - 1 : Bullets + 1, silent: true);
+        }
+        AppliedPower.SyncFrom(this);
     }
 }
 
