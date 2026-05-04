@@ -1,10 +1,12 @@
 {
   "JHIN-COMMON_SHOT.title": "普通射击",
-  "JHIN-COMMON_SHOT.description": "造成 {Damage:diff()} 点伤害。",
+  "JHIN-COMMON_SHOT.description": "消耗 1 发子弹。造成 {Damage:diff()} 点伤害。",
   "JHIN-GRACEFUL_FOOTWORK.title": "优雅走位",
   "JHIN-GRACEFUL_FOOTWORK.description": "获得 {Block:diff()} 点格挡。",
   "JHIN-DEADLY_FLOURISH.title": "致命华彩",
-  "JHIN-DEADLY_FLOURISH.description": "造成 {Damage:diff()} 点伤害。为后续射击与华彩机制预留入口。",
+  "JHIN-DEADLY_FLOURISH.description": "消耗 1 发子弹。造成 {Damage:diff()} 点伤害。为后续射击与华彩机制预留入口。",
   "JHIN-RELOAD.title": "装填",
-  "JHIN-RELOAD.description": "本回合不执行额外效果。为后续子弹系统预留接口。"
+  "JHIN-RELOAD.description": "将当前子弹装填至 4 发。",
+  "JHIN-SHOOT_DISABLED_NO_BULLETS": "子弹已尽……但艺术，从不依赖火药。",
+  "JHIN-SHOOT_DISABLED_NO_ENERGY": "节拍，停了。"
 }

@@ -6,3 +6,4 @@ test-demo
 .vs
 .vscode
 dist
+tools/Inspector

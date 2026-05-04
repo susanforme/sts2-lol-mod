@@ -1,0 +1,12 @@
+{
+  "JHIN-COMMON_SHOT.title": "Common Shot",
+  "JHIN-COMMON_SHOT.description": "Spend 1 bullet. Deal {Damage:diff()} damage.",
+  "JHIN-GRACEFUL_FOOTWORK.title": "Graceful Footwork",
+  "JHIN-GRACEFUL_FOOTWORK.description": "Gain {Block:diff()} Block.",
+  "JHIN-DEADLY_FLOURISH.title": "Deadly Flourish",
+  "JHIN-DEADLY_FLOURISH.description": "Spend 1 bullet. Deal {Damage:diff()} damage. Reserves space for later shot and flourish mechanics.",
+  "JHIN-RELOAD.title": "Reload",
+  "JHIN-RELOAD.description": "Reload your current magazine to 4 bullets.",
+  "JHIN-SHOOT_DISABLED_NO_BULLETS": "The chamber is empty... but art never relied on gunpowder.",
+  "JHIN-SHOOT_DISABLED_NO_ENERGY": "The rhythm has stopped."
+}

@@ -16,7 +16,7 @@ namespace jhin.Cards;
 [Pool(typeof(JhinCardPool))]
 public class DeadlyFlourish() : AbstractShootCard(
     cost: 2,
-    rarity: CardRarity.Basic,
+    rarity: CardRarity.Rare,
     target: TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10, ValueProp.Move)];
@@ -25,7 +25,11 @@ public class DeadlyFlourish() : AbstractShootCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        OnShoot();
+        if (!TryConsumeBullet())
+        {
+            return;
+        }
+
         await CommonActions.CardAttack(this, cardPlay.Target).Execute(choiceContext);
     }
 

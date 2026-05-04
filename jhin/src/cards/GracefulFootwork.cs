@@ -17,7 +17,7 @@ namespace jhin.Cards;
 public class GracefulFootwork() : AbstractJhinCard(
     cost: 1,
     type: CardType.Skill,
-    rarity: CardRarity.Basic,
+    rarity: CardRarity.Common,
     target: TargetType.Self)
 {
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];

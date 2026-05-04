@@ -16,7 +16,7 @@ namespace jhin.Cards;
 [Pool(typeof(JhinCardPool))]
 public class CommonShot() : AbstractShootCard(
     cost: 1,
-    rarity: CardRarity.Basic,
+    rarity: CardRarity.Common,
     target: TargetType.AnyEnemy)
 {
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
@@ -27,7 +27,11 @@ public class CommonShot() : AbstractShootCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        OnShoot();
+        if (!TryConsumeBullet())
+        {
+            return;
+        }
+
         await CommonActions.CardAttack(this, cardPlay.Target).Execute(choiceContext);
     }
 

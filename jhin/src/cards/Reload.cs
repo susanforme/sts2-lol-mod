@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using jhin.CardPools;
+using jhin.Actions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace jhin.Cards;
 public class Reload() : AbstractJhinCard(
     cost: 0,
     type: CardType.Skill,
-    rarity: CardRarity.Basic,
+    rarity: CardRarity.Uncommon,
     target: TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
@@ -25,6 +26,7 @@ public class Reload() : AbstractJhinCard(
 
     protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        ReloadAction.Execute(Owner);
         return Task.CompletedTask;
     }
 

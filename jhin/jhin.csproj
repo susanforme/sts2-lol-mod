@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="tools/**/*.cs" />
+    <Compile Remove=".godot/**/*.cs" />
+
     <Reference Include="0Harmony">
       <HintPath>lib\0Harmony.dll</HintPath>
       <Private>true</Private>
