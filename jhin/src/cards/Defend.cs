@@ -4,8 +4,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.CardPools;
@@ -13,20 +11,19 @@ using jhin.CardPools;
 namespace jhin.Cards;
 
 [Pool(typeof(JhinCardPool))]
-public class AwaitApplause() : AbstractJhinCard(
+public class Defend() : AbstractJhinCard(
     cost: 1,
     type: CardType.Skill,
-    rarity: CardRarity.Common,
+    rarity: CardRarity.Basic,
     target: TargetType.Self)
 {
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
-
-        EnergyNextTurnPower power = (EnergyNextTurnPower)ModelDb.Power<EnergyNextTurnPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, 1, silent: false);
     }
 
     protected override void OnUpgrade()

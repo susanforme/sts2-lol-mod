@@ -32,9 +32,6 @@ public static class PlayerPopulateCombatStatePatch
         BulletPower bulletPower = (BulletPower)ModelDb.Power<BulletPower>().ToMutable();
         bulletPower.ApplyInternal(__instance.Creature, state.Bullets, silent: true);
         state.AttachPower(bulletPower);
-
-        JhinCombatTrackerPower trackerPower = (JhinCombatTrackerPower)ModelDb.Power<JhinCombatTrackerPower>().ToMutable();
-        trackerPower.ApplyInternal(__instance.Creature, 1, silent: true);
     }
 }
 
@@ -77,13 +74,6 @@ public static class PlayerCombatStateResetEnergyPatch
         if (player?.Creature is null || !player.Creature.IsAlive)
         {
             return;
-        }
-
-        AwaitApplausePower? awaitPower = player.Creature.GetPower<AwaitApplausePower>();
-        if (awaitPower is not null)
-        {
-            _ = MegaCrit.Sts2.Core.Commands.PlayerCmd.GainEnergy(1m, player);
-            player.Creature.RemovePowerInternal(awaitPower);
         }
 
         ActorsInstinctPower? instinctPower = player.Creature.GetPower<ActorsInstinctPower>();

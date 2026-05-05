@@ -49,6 +49,12 @@ public sealed class JhinMagazineState
         SyncPowerForce();
     }
 
+    public void SetBulletsToZero()
+    {
+        Bullets = 0;
+        SyncPowerForce();
+    }
+
     public void StartTurn()
     {
         bool reloaded = Bullets == 0;

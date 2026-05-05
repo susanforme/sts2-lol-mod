@@ -29,16 +29,18 @@ public class JhinCharacter : PlaceholderCharacterModel
 
     public override IEnumerable<CardModel> StartingDeck =>
     [
-        ModelDb.Card<CommonShot>(),
-        ModelDb.Card<CommonShot>(),
-        ModelDb.Card<CommonShot>(),
-        ModelDb.Card<CommonShot>(),
-        ModelDb.Card<GracefulFootwork>(),
-        ModelDb.Card<GracefulFootwork>(),
-        ModelDb.Card<GracefulFootwork>(),
-        ModelDb.Card<GracefulFootwork>(),
-        ModelDb.Card<DeadlyFlourish>(),
+        ModelDb.Card<Strike>(),
+        ModelDb.Card<Strike>(),
+        ModelDb.Card<Strike>(),
+        ModelDb.Card<Strike>(),
+        ModelDb.Card<Strike>(),
+        ModelDb.Card<Defend>(),
+        ModelDb.Card<Defend>(),
+        ModelDb.Card<Defend>(),
+        ModelDb.Card<Defend>(),
+        ModelDb.Card<Defend>(),
         ModelDb.Card<Reload>(),
+        ModelDb.Card<CommonShot>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>

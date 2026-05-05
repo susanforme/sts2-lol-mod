@@ -24,26 +24,23 @@ public class DeathIsArtPower : CustomPowerModel, IAddDumbVariablesToPowerDescrip
 
     private readonly HashSet<Creature> _triggeredEnemies = [];
 
-    public void AfterCardPlayed(CardPlay cardPlay)
+    public static void CheckAfterCardPlayed(CardPlay cardPlay, Creature creature)
     {
-        if (Owner?.CombatState is null)
-        {
-            return;
-        }
+        if (creature.CombatState is null) return;
 
-        foreach (Creature enemy in Owner.CombatState.HittableEnemies)
+        DeathIsArtPower? power = creature.GetPower<DeathIsArtPower>();
+        if (power is null) return;
+
+        foreach (Creature enemy in creature.CombatState.HittableEnemies)
         {
-            if (!enemy.IsAlive || _triggeredEnemies.Contains(enemy))
-            {
-                continue;
-            }
+            if (!enemy.IsAlive || power._triggeredEnemies.Contains(enemy)) continue;
 
             if (enemy.MaxHp > 0 && (decimal)enemy.CurrentHp / enemy.MaxHp < 0.5m)
             {
-                _triggeredEnemies.Add(enemy);
-                Flash();
-                int strAmount = Amount > 1 ? 2 : 1;
-                JhinCombatActionUtil.ApplyOrStackStrength(Owner, strAmount);
+                power._triggeredEnemies.Add(enemy);
+                power.Flash();
+                int strAmount = power.Amount > 1 ? 2 : 1;
+                JhinCombatActionUtil.ApplyOrStackStrength(creature, strAmount);
             }
         }
     }

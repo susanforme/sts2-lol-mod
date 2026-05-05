@@ -7,3 +7,5 @@ test-demo
 .vscode
 dist
 tools/Inspector
+*.old.*
+*.old

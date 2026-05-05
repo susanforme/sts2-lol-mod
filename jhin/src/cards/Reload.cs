@@ -16,7 +16,7 @@ namespace jhin.Cards;
 public class Reload() : AbstractJhinCard(
     cost: 0,
     type: CardType.Skill,
-    rarity: CardRarity.Common,
+    rarity: CardRarity.Basic,
     target: TargetType.Self)
 {
     protected override IEnumerable<MegaCrit.Sts2.Core.Localization.DynamicVars.DynamicVar> CanonicalVars => [];

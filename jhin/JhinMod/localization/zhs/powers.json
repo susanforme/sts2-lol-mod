@@ -35,8 +35,6 @@
   "JHIN-ACTORS_INSTINCT_POWER_PLUS.description": "若本回合未触发[gold]华彩[/gold]，下回合获得 1 点力量和 1 点敏捷。",
   "JHIN-STAGE_CONTROL_POWER.title": "控场艺术",
   "JHIN-STAGE_CONTROL_POWER.description": "每当你给敌人施加[gold]虚弱[/gold]时，同时给予 {markAmount} 层[gold]标记[/gold]。",
-  "JHIN-AWAIT_APPLAUSE_POWER.title": "等待掌声",
-  "JHIN-AWAIT_APPLAUSE_POWER.description": "下个回合开始时，获得 1 点能量。",
   "JHIN-DEATH_IS_ART_POWER.title": "死亡是艺术",
   "JHIN-DEATH_IS_ART_POWER.description": "当敌人首次生命降到 50% 以下时，获得 {strengthAmount} 点力量（每个敌人一次）。",
   "JHIN-LOTUS_WORKSHOP_POWER.title": "莲花工坊",
@@ -54,5 +52,13 @@
   "JHIN-AESTHETIC_OF_FOUR_POWER.title": "四的美学",
   "JHIN-AESTHETIC_OF_FOUR_POWER.description": "若回合开始时[gold]子弹[/gold]为 4，获得 1 点能量。",
   "JHIN-AESTHETIC_OF_FOUR_POWER_PLUS.title": "四的美学",
-  "JHIN-AESTHETIC_OF_FOUR_POWER_PLUS.description": "若回合开始时[gold]子弹[/gold]为 4，获得 1 点能量并抽 1 张牌。"
+  "JHIN-AESTHETIC_OF_FOUR_POWER_PLUS.description": "若回合开始时[gold]子弹[/gold]为 4，获得 1 点能量并抽 1 张牌。",
+  "JHIN-WHISPER_ECHO_POWER.title": "低语回响",
+  "JHIN-WHISPER_ECHO_POWER.description": "每当你触发[gold]华彩[/gold]时，获得 {energyAmount} 点能量并抽 {drawAmount} 张牌。",
+  "JHIN-FATEMAKER_POWER.title": "戏命师",
+  "JHIN-FATEMAKER_POWER.description": "你的[gold]子弹[/gold]上限增加 {extraBullets}。每回合开始时，获得 {energyAmount} 点能量。",
+  "JHIN-PERFECT_CRIME_POWER.title": "完美犯罪",
+  "JHIN-PERFECT_CRIME_POWER.description": "每回合开始时，获得 {gainAmount} 点力量。",
+  "JHIN-FINAL_ACT_ART_POWER.title": "终幕艺术",
+  "JHIN-FINAL_ACT_ART_POWER.description": "每回合开始时，若任何敌人生命低于 30%，获得 {energyAmount} 点能量。"
 }

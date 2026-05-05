@@ -3,19 +3,17 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.CardPools;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace jhin.Cards;
 
 [Pool(typeof(JhinCardPool))]
-public class CommonShot() : AbstractShootCard(
+public class Strike() : AbstractJhinCard(
     cost: 1,
+    type: CardType.Attack,
     rarity: CardRarity.Basic,
     target: TargetType.AnyEnemy)
 {
@@ -23,24 +21,18 @@ public class CommonShot() : AbstractShootCard(
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6, ValueProp.Move)];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
-    ];
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (!TryShoot(choiceContext))
+        if (cardPlay.Target is null)
         {
             return;
         }
 
-        await PerformShootAttack(choiceContext, cardPlay.Target);
-        EndFlourishContext();
+        await CommonActions.CardAttack(this, cardPlay.Target, DynamicVars.Damage.IntValue, 1, null, null, null).Execute(choiceContext);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

@@ -73,7 +73,17 @@
 ```
 C:\Users\<YourUsername>\AppData\Roaming\SlayTheSpire2\logs
 ```
-YourUsername 需要替换为实际的Windows用户名。
+YourUsername 需要替换为实际的Windows用户名
+。
+
+
+## 文档
+
+baselib
+
+```
+https://alchyr.github.io/BaseLib-Wiki/docs/Features.html
+```
 
 ## 碰到复杂问题怎么办
 

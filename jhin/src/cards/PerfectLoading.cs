@@ -12,7 +12,7 @@ namespace jhin.Cards;
 
 [Pool(typeof(JhinCardPool))]
 public class PerfectLoading() : AbstractJhinCard(
-    cost: 1,
+    cost: 0,
     type: CardType.Skill,
     rarity: CardRarity.Rare,
     target: TargetType.Self)
@@ -27,7 +27,13 @@ public class PerfectLoading() : AbstractJhinCard(
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ReloadAction.Execute(Owner);
-        _ = PlayerCmd.GainEnergy(3m, Owner);
+        int energyAmount = IsUpgraded ? 3 : 2;
+        _ = PlayerCmd.GainEnergy(energyAmount, Owner);
+        if (IsUpgraded)
+        {
+            await JhinCombatActionUtil.Draw(choiceContext, Owner, 1);
+        }
+
         await Task.CompletedTask;
     }
 

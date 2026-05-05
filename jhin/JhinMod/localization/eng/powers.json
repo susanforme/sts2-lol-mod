@@ -35,8 +35,6 @@
   "JHIN-ACTORS_INSTINCT_POWER_PLUS.description": "If you didn't [gold]Flourish[/gold] this turn, gain 1 Strength and 1 Dexterity next turn.",
   "JHIN-STAGE_CONTROL_POWER.title": "Stage Control",
   "JHIN-STAGE_CONTROL_POWER.description": "Whenever you apply [gold]Weak[/gold], also apply {markAmount} [gold]Mark[/gold].",
-  "JHIN-AWAIT_APPLAUSE_POWER.title": "Await Applause",
-  "JHIN-AWAIT_APPLAUSE_POWER.description": "Next turn start: gain 1 Energy.",
   "JHIN-DEATH_IS_ART_POWER.title": "Death is Art",
   "JHIN-DEATH_IS_ART_POWER.description": "When an enemy first drops below 50% HP, gain {strengthAmount} Strength (once per enemy).",
   "JHIN-LOTUS_WORKSHOP_POWER.title": "Lotus Workshop",
@@ -54,5 +52,13 @@
   "JHIN-AESTHETIC_OF_FOUR_POWER.title": "Aesthetic of Four",
   "JHIN-AESTHETIC_OF_FOUR_POWER.description": "If you start your turn with 4 [gold]Bullets[/gold], gain 1 Energy.",
   "JHIN-AESTHETIC_OF_FOUR_POWER_PLUS.title": "Aesthetic of Four",
-  "JHIN-AESTHETIC_OF_FOUR_POWER_PLUS.description": "If you start your turn with 4 [gold]Bullets[/gold], gain 1 Energy and draw 1 card."
+  "JHIN-AESTHETIC_OF_FOUR_POWER_PLUS.description": "If you start your turn with 4 [gold]Bullets[/gold], gain 1 Energy and draw 1 card.",
+  "JHIN-WHISPER_ECHO_POWER.title": "Whisper Echo",
+  "JHIN-WHISPER_ECHO_POWER.description": "When you trigger [gold]Flourish[/gold], gain {energyAmount} Energy and draw {drawAmount} card(s).",
+  "JHIN-FATEMAKER_POWER.title": "Fatemaker",
+  "JHIN-FATEMAKER_POWER.description": "Your max [gold]Bullets[/gold] increased by {extraBullets}. At the start of your turn, gain {energyAmount} Energy.",
+  "JHIN-PERFECT_CRIME_POWER.title": "Perfect Crime",
+  "JHIN-PERFECT_CRIME_POWER.description": "At the start of your turn, gain {gainAmount} Strength.",
+  "JHIN-FINAL_ACT_ART_POWER.title": "Final Act Art",
+  "JHIN-FINAL_ACT_ART_POWER.description": "At the start of your turn, if any enemy is below 30% HP, gain {energyAmount} Energy."
 }
