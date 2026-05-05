@@ -86,4 +86,24 @@ public static class DamageCalculationUtil
         decimal hpRatio = (decimal)currentHp / maxHp;
         return hpRatio < ConstantUtil.LowHpThreshold;
     }
+
+    /// <summary>
+    /// Returns the Last Whisper flourish multiplier for the current damage context.
+    /// </summary>
+    public static decimal GetLastWhisperFlourishMultiplier(bool hasLastWhisper, bool isFlourish)
+    {
+        return hasLastWhisper && isFlourish
+            ? ConstantUtil.LastWhisperFlourishMultiplier
+            : 1m;
+    }
+
+    /// <summary>
+    /// Returns the Last Whisper low-HP flat damage bonus for the current damage context.
+    /// </summary>
+    public static int GetLastWhisperLowHpBonusDamage(bool hasLastWhisper, bool isFlourish, bool isLowHp)
+    {
+        return hasLastWhisper && isFlourish && isLowHp
+            ? ConstantUtil.LastWhisperLowHpBonusDamage
+            : 0;
+    }
 }

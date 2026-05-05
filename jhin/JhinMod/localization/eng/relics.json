@@ -7,5 +7,8 @@
   "JHIN-JHIN_MASK.flavor": "Behind the mask is not concealment, but an entrance.",
   "JHIN-EMPTY_SHELL.title": "Empty Shell",
   "JHIN-EMPTY_SHELL.description": "Whenever your [gold]Bullets[/gold] truly become 0, gain {blockAmount} Block.",
-  "JHIN-EMPTY_SHELL.flavor": "Only after the last shot leaves the chamber does the dance begin."
+  "JHIN-EMPTY_SHELL.flavor": "Only after the last shot leaves the chamber does the dance begin.",
+  "JHIN-LAST_WHISPER.title": "Last Whisper",
+  "JHIN-LAST_WHISPER.description": "When [gold]Flourish[/gold] triggers, increase this attack's damage by {flourishMultiplierPercent}%. If the target's HP is below {lowHpThresholdPercent}%, deal {lowHpBonusDamage} additional damage.",
+  "JHIN-LAST_WHISPER.flavor": "When four shots fall silent, the final whisper begins... one last crescendo."
 }

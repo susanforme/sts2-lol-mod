@@ -41,6 +41,21 @@ public static class ConstantUtil
     public const int WhisperLowHpBonusDamage = 6;
 
     /// <summary>
+    /// Last Whisper's flourish damage multiplier (ancient version).
+    /// </summary>
+    public const decimal LastWhisperFlourishMultiplier = 1.75m;
+
+    /// <summary>
+    /// Integer display value for Last Whisper's flourish bonus percent.
+    /// </summary>
+    public static int LastWhisperFlourishBonusPercent => decimal.ToInt32((LastWhisperFlourishMultiplier - 1m) * 100m);
+
+    /// <summary>
+    /// Extra flat damage from Last Whisper when the target is below the low-HP threshold.
+    /// </summary>
+    public const int LastWhisperLowHpBonusDamage = 12;
+
+    /// <summary>
     /// HP ratio below which a target counts as low HP.
     /// </summary>
     public const decimal LowHpThreshold = 0.25m;

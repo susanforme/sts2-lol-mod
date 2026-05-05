@@ -7,5 +7,8 @@
   "JHIN-JHIN_MASK.flavor": "面具之下，不是隐藏，而是登场。",
   "JHIN-EMPTY_SHELL.title": "空弹壳",
   "JHIN-EMPTY_SHELL.description": "每当你的[gold]子弹[/gold]真实变为 0 时，获得 {blockAmount} 点格挡。",
-  "JHIN-EMPTY_SHELL.flavor": "最后一发离膛后，舞步才真正开始。"
+  "JHIN-EMPTY_SHELL.flavor": "最后一发离膛后，舞步才真正开始。",
+  "JHIN-LAST_WHISPER.title": "最后的轻语",
+  "JHIN-LAST_WHISPER.description": "当[gold]华彩[/gold]触发时，本次攻击伤害提高 {flourishMultiplierPercent}%。若目标生命值低于 {lowHpThresholdPercent}%，额外造成 {lowHpBonusDamage} 点伤害。",
+  "JHIN-LAST_WHISPER.flavor": "当四声枪响归于沉寂，最后的低语开始……终幕的一响。"
 }

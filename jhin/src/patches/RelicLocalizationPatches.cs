@@ -26,6 +26,14 @@ public static class RelicDescriptionVariablesPatch
             return;
         }
 
+        if (__instance is LastWhisper)
+        {
+            __result.Add("flourishMultiplierPercent", ConstantUtil.LastWhisperFlourishBonusPercent);
+            __result.Add("lowHpThresholdPercent", ConstantUtil.LowHpThresholdPercent);
+            __result.Add("lowHpBonusDamage", ConstantUtil.LastWhisperLowHpBonusDamage);
+            return;
+        }
+
         if (__instance is JhinMask)
         {
             __result.Add("markAmount", 1);
