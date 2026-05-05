@@ -1,5 +1,6 @@
 name: Build JhinMod
-
+permissions:
+  contents: write
 on:
   push:
     branches: [main, master]
@@ -94,7 +95,7 @@ jobs:
         run: |
           $branch = "${{ github.ref_name }}" -replace '[\\/:*?"<>|]', '-'
           $time = Get-Date -Format "yyyyMMdd-HHmmss"
-          $zip = "dist\jhin-$branch-$time.zip"
+          $zip = "$PWD\dist\jhin-$branch-$time.zip"
           Compress-Archive -Path "dist\$env:MOD_ID\*" -DestinationPath $zip
           echo "ZIP=$zip" >> $env:GITHUB_ENV
 
@@ -102,4 +103,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: JhinMod
-          path: jhin/${{ env.ZIP }}
+          path: ${{ env.ZIP }}
+
+      - name: Create GitHub Release
+        if: github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: jhin-${{ github.run_number }}
+          name: JhinMod build ${{ github.run_number }}
+          files: ${{ env.ZIP }}
