@@ -4,5 +4,9 @@
   "JHIN-MARK_POWER.title": "标记",
   "JHIN-MARK_POWER.description": "当烬下一张[gold]射击[/gold]牌命中该敌人时，每层额外造成 {markDamagePerStack} 点伤害，然后移除所有[gold]标记[/gold]。",
   "JHIN-LOTUS_TRAP_POWER.title": "莲花陷阱",
-  "JHIN-LOTUS_TRAP_POWER.description": "该敌人攻击后，移除[gold]莲花陷阱[/gold]。每层造成 {lotusTrapDamagePerStack} 点伤害并给予 {lotusTrapWeakPerStack} 层[gold]虚弱[/gold]。若该伤害杀死敌人，对所有敌人每层造成 {lotusTrapDeathExplosionDamage} 点伤害。"
+  "JHIN-LOTUS_TRAP_POWER.description": "该敌人攻击后，移除[gold]莲花陷阱[/gold]。每层造成 {lotusTrapDamagePerStack} 点伤害并给予 {lotusTrapWeakPerStack} 层[gold]虚弱[/gold]。若该伤害杀死敌人，对所有敌人每层造成 {lotusTrapDeathExplosionDamage} 点伤害。",
+  "JHIN-FLOURISH_TEMPO_POWER.title": "华彩节奏",
+  "JHIN-FLOURISH_TEMPO_POWER.description": "每当你触发[gold]华彩[/gold]，获得 1 点能量。",
+  "JHIN-FLOURISH_TEMPO_POWER_PLUS.title": "华彩节奏",
+  "JHIN-FLOURISH_TEMPO_POWER_PLUS.description": "每当你触发[gold]华彩[/gold]，获得 1 点能量并抽 1 张牌。"
 }

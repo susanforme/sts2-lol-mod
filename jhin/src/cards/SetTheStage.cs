@@ -21,7 +21,7 @@ public class SetTheStage() : AbstractJhinCard(
     rarity: CardRarity.Common,
     target: TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(6, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(7, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
@@ -31,11 +31,11 @@ public class SetTheStage() : AbstractJhinCard(
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
-        ApplyMarkAction.ExecuteRandomEnemy(Owner, 1);
+        ApplyMarkAction.ExecuteRandomEnemy(Owner, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(3m);
+        DynamicVars.Block.UpgradeValueBy(2m);
     }
 }

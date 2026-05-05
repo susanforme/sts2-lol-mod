@@ -2,30 +2,27 @@ using BaseLib.Extensions;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
-using jhin.Actions;
 using jhin.CardPools;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace jhin.Cards;
 
 [Pool(typeof(JhinCardPool))]
-public class AimShot() : AbstractShootCard(
+public class PiercingRound() : AbstractShootCard(
     cost: 1,
     rarity: CardRarity.Common,
-    target: TargetType.AnyEnemy)
+    target: TargetType.AllEnemies)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
-        HoverTipFactory.FromKeyword(JhinKeywords.Mark),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -35,8 +32,17 @@ public class AimShot() : AbstractShootCard(
             return;
         }
 
-        await PerformShootAttack(choiceContext, cardPlay.Target);
-        ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 2 : 1);
+        if (Owner.Creature?.CombatState is null)
+        {
+            EndFlourishContext();
+            return;
+        }
+
+        foreach (Creature enemy in Owner.Creature.CombatState.HittableEnemies.Where(enemy => enemy.IsAlive))
+        {
+            await CreatureCmd.Damage(choiceContext, enemy, DynamicVars.Damage.IntValue, ValueProp.Move, Owner.Creature, this);
+        }
+
         EndFlourishContext();
     }
 

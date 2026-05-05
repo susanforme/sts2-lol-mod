@@ -3,29 +3,22 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Actions;
 using jhin.CardPools;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace jhin.Cards;
 
 [Pool(typeof(JhinCardPool))]
-public class GracefulFootwork() : AbstractJhinCard(
-    cost: 1,
+public class Backstep() : AbstractJhinCard(
+    cost: 0,
     type: CardType.Skill,
     rarity: CardRarity.Common,
     target: TargetType.Self)
 {
-    protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5, ValueProp.Move)];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(3, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -33,7 +26,7 @@ public class GracefulFootwork() : AbstractJhinCard(
 
         if (JhinCombatActionUtil.HasShotThisTurn(Owner))
         {
-            await CreatureCmd.GainBlock(Owner.Creature, IsUpgraded ? 4 : 3, ValueProp.Move, cardPlay, false);
+            await JhinCombatActionUtil.Draw(choiceContext, Owner, 1);
         }
     }
 

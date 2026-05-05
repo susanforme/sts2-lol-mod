@@ -4,5 +4,9 @@
   "JHIN-MARK_POWER.title": "Mark",
   "JHIN-MARK_POWER.description": "The next time Jhin hits this enemy with a [gold]Shoot[/gold] card, it takes {markDamagePerStack} additional damage per stack, then loses all [gold]Mark[/gold].",
   "JHIN-LOTUS_TRAP_POWER.title": "Lotus Trap",
-  "JHIN-LOTUS_TRAP_POWER.description": "After this enemy attacks, remove [gold]Lotus Trap[/gold]. Deal {lotusTrapDamagePerStack} damage and apply {lotusTrapWeakPerStack} [gold]Weak[/gold] per stack. If this damage kills the enemy, deal {lotusTrapDeathExplosionDamage} damage to all enemies per stack."
+  "JHIN-LOTUS_TRAP_POWER.description": "After this enemy attacks, remove [gold]Lotus Trap[/gold]. Deal {lotusTrapDamagePerStack} damage and apply {lotusTrapWeakPerStack} [gold]Weak[/gold] per stack. If this damage kills the enemy, deal {lotusTrapDeathExplosionDamage} damage to all enemies per stack.",
+  "JHIN-FLOURISH_TEMPO_POWER.title": "Flourish Tempo",
+  "JHIN-FLOURISH_TEMPO_POWER.description": "Whenever you trigger [gold]Flourish[/gold], gain 1 Energy.",
+  "JHIN-FLOURISH_TEMPO_POWER_PLUS.title": "Flourish Tempo",
+  "JHIN-FLOURISH_TEMPO_POWER_PLUS.description": "Whenever you trigger [gold]Flourish[/gold], gain 1 Energy and draw 1 card."
 }

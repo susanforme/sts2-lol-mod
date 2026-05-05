@@ -21,7 +21,7 @@ public class LongRangeSnipe() : AbstractShootCard(
     rarity: CardRarity.Uncommon,
     target: TargetType.AnyEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(12, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(18, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
@@ -32,7 +32,7 @@ public class LongRangeSnipe() : AbstractShootCard(
     protected override void AddExtraArgsToDescription(LocString description)
     {
         base.AddExtraArgsToDescription(description);
-        description.Add("markDamagePerStack", ConstantUtil.MarkDamagePerStack);
+        description.Add("markDamagePerStack", IsUpgraded ? 4 : 3);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -42,7 +42,7 @@ public class LongRangeSnipe() : AbstractShootCard(
             return;
         }
 
-        await PerformShootAttack(choiceContext, cardPlay.Target, extraCardDamagePerMark: 3);
+        await PerformShootAttack(choiceContext, cardPlay.Target, extraCardDamagePerMark: IsUpgraded ? 4 : 3);
         EndFlourishContext();
     }
 

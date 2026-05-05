@@ -4,22 +4,20 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.ValueProps;
 using jhin.CardPools;
-using jhin.Actions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace jhin.Cards;
 
 [Pool(typeof(JhinCardPool))]
-public class Reload() : AbstractJhinCard(
+public class WhisperBurst() : AbstractShootCard(
     cost: 0,
-    type: CardType.Skill,
     rarity: CardRarity.Common,
-    target: TargetType.Self)
+    target: TargetType.AnyEnemy)
 {
-    protected override IEnumerable<MegaCrit.Sts2.Core.Localization.DynamicVars.DynamicVar> CanonicalVars => [];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(4, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
@@ -28,17 +26,17 @@ public class Reload() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ReloadAction.Execute(Owner);
-        JhinCombatActionUtil.DisableFlourishThisTurn(Owner);
-        await JhinCombatActionUtil.Draw(choiceContext, Owner, IsUpgraded ? 2 : 1);
-    }
+        if (!TryShoot(choiceContext))
+        {
+            return;
+        }
 
-    protected override PileType GetResultPileType()
-    {
-        return PileType.Exhaust;
+        await PerformShootAttack(choiceContext, cardPlay.Target);
+        EndFlourishContext();
     }
 
     protected override void OnUpgrade()
     {
+        DynamicVars.Damage.UpgradeValueBy(1m);
     }
 }

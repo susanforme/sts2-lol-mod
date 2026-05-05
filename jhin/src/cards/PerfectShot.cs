@@ -9,23 +9,21 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Actions;
 using jhin.CardPools;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace jhin.Cards;
 
 [Pool(typeof(JhinCardPool))]
-public class AimShot() : AbstractShootCard(
+public class PerfectShot() : AbstractShootCard(
     cost: 1,
     rarity: CardRarity.Common,
     target: TargetType.AnyEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
-        HoverTipFactory.FromKeyword(JhinKeywords.Mark),
+        HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -36,7 +34,16 @@ public class AimShot() : AbstractShootCard(
         }
 
         await PerformShootAttack(choiceContext, cardPlay.Target);
-        ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 2 : 1);
+
+        if (IsFlourishShot)
+        {
+            await JhinCombatActionUtil.GainEnergy(Owner, 1);
+            if (IsUpgraded)
+            {
+                await JhinCombatActionUtil.Draw(choiceContext, Owner, 1);
+            }
+        }
+
         EndFlourishContext();
     }
 

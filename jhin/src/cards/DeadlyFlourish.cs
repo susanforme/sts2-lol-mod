@@ -7,8 +7,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.CardPools;
@@ -20,11 +18,11 @@ namespace jhin.Cards;
 
 [Pool(typeof(JhinCardPool))]
 public class DeadlyFlourish() : AbstractShootCard(
-    cost: 2,
-    rarity: CardRarity.Rare,
+    cost: 1,
+    rarity: CardRarity.Uncommon,
     target: TargetType.AnyEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
@@ -52,8 +50,8 @@ public class DeadlyFlourish() : AbstractShootCard(
 
         if (hadMark)
         {
-            int vulnerableAmount = IsFlourishShot ? 2 : 1;
-            ApplyOrStackVulnerable(cardPlay.Target, vulnerableAmount);
+            int vulnerableAmount = IsFlourishShot ? (IsUpgraded ? 3 : 2) : (IsUpgraded ? 2 : 1);
+            JhinCombatActionUtil.ApplyOrStackVulnerable(cardPlay.Target, vulnerableAmount);
         }
 
         EndFlourishContext();
@@ -61,19 +59,6 @@ public class DeadlyFlourish() : AbstractShootCard(
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3m);
-    }
-
-    private static void ApplyOrStackVulnerable(MegaCrit.Sts2.Core.Entities.Creatures.Creature target, int amount)
-    {
-        VulnerablePower? existingPower = target.GetPower<VulnerablePower>();
-        if (existingPower is not null)
-        {
-            existingPower.SetAmount(existingPower.Amount + amount, silent: false);
-            return;
-        }
-
-        VulnerablePower vulnerablePower = (VulnerablePower)ModelDb.Power<VulnerablePower>().ToMutable();
-        vulnerablePower.ApplyInternal(target, amount, silent: false);
+        DynamicVars.Damage.UpgradeValueBy(2m);
     }
 }

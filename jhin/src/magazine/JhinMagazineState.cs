@@ -7,6 +7,8 @@ namespace jhin.Magazine;
 
 public sealed class JhinMagazineState
 {
+    private bool _flourishDisabledThisTurn;
+
     public int Bullets { get; private set; }
     public int MaxBullets { get; private set; }
     public int FlourishCountThisTurn { get; private set; }
@@ -21,6 +23,7 @@ public sealed class JhinMagazineState
         FlourishCountThisTurn = 0;
         FlourishCountThisCombat = 0;
         UsedShootThisTurn = false;
+        _flourishDisabledThisTurn = false;
         SyncPower();
     }
 
@@ -34,6 +37,7 @@ public sealed class JhinMagazineState
 
         FlourishCountThisTurn = 0;
         UsedShootThisTurn = false;
+        _flourishDisabledThisTurn = false;
 
         if (reloaded)
         {
@@ -77,20 +81,25 @@ public sealed class JhinMagazineState
         Bullets--;
         UsedShootThisTurn = true;
 
-        if (wasLastBullet)
+        if (wasLastBullet && !_flourishDisabledThisTurn)
         {
             FlourishCountThisTurn++;
             FlourishCountThisCombat++;
         }
 
         SyncPower();
-        return wasLastBullet;
+        return wasLastBullet && !_flourishDisabledThisTurn;
     }
 
     public void ReloadToFull()
     {
         Bullets = MaxBullets;
         SyncPowerForce();
+    }
+
+    public void DisableFlourishThisTurn()
+    {
+        _flourishDisabledThisTurn = true;
     }
 
     public void AttachPower(BulletPower power)

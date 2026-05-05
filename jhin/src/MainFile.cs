@@ -1,4 +1,5 @@
 using BaseLib.Utils;
+using BaseLib.Patches.Localization;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
@@ -16,6 +17,7 @@ public class MainFile
 
     public static void Initialize()
     {
+        SimpleLoc.EnableSimpleLoc(ModId);
         Harmony harmony = new(ModId);
         harmony.PatchAll();
     }
