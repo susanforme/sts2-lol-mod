@@ -202,7 +202,7 @@
    - 射击
    - 华彩
    - 标记
-   - 莲华陷阱
+   - 莲花陷阱
    - 装填
 6. 卡图默认接入 `JhinMod\Images\card_placeholder.png`。
 
