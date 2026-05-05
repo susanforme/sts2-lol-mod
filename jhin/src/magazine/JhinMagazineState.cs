@@ -12,6 +12,7 @@ public sealed class JhinMagazineState
 
     public int Bullets { get; private set; }
     public int MaxBullets { get; private set; }
+    public int BaseMaxBullets => 4;
     public int FlourishCountThisTurn { get; private set; }
     public int FlourishCountThisCombat { get; private set; }
     public bool UsedShootThisTurn { get; private set; }
@@ -20,6 +21,7 @@ public sealed class JhinMagazineState
     public int AttackCardCountThisTurn { get; private set; }
     public BulletPower? AppliedPower { get; private set; }
     public bool HasForcedFlourish => _forceNextShotFlourish;
+    public bool HasTriggeredFlourishThisTurn => FlourishCountThisTurn > 0;
 
     public void InitializeCombat()
     {
@@ -34,6 +36,17 @@ public sealed class JhinMagazineState
         _flourishDisabledThisTurn = false;
         _forceNextShotFlourish = false;
         SyncPower();
+    }
+
+    public void IncreaseMaxBullets(int amount)
+    {
+        MaxBullets = BaseMaxBullets + amount;
+        if (Bullets > MaxBullets)
+        {
+            Bullets = MaxBullets;
+        }
+
+        SyncPowerForce();
     }
 
     public void StartTurn()

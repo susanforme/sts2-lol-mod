@@ -51,6 +51,8 @@ public class JhinCombatTrackerPower : CustomPowerModel
             }
         }
 
+        Owner.Player?.Creature?.GetPower<DeathIsArtPower>()?.AfterCardPlayed(cardPlay);
+
         return Task.CompletedTask;
     }
 }

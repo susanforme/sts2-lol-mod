@@ -91,17 +91,18 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
             isFlourish: IsFlourishShot,
             markStacks: markAmount,
             isLowHp: isLowHp,
-            // Whisper remains in the relic hook so combat damage and previews stay in sync.
             hasWhisper: false,
             extraDamagePerMark: extraCardDamagePerMark);
 
+        int bonusDamage = jhin.Powers.PerfectTrajectoryPower.GetBonusShootDamage(Owner?.Creature);
+
         AttackCommand command = await CommonActions
-            .CardAttack(this, target, damageResult.TotalDamage, 1, null, null, null)
+            .CardAttack(this, target, damageResult.TotalDamage + bonusDamage, 1, null, null, null)
             .Execute(choiceContext);
 
         if (markAmount > 0)
         {
-            ShootAction.ConsumeMarks(target);
+            ShootAction.ConsumeMarks(target, Owner);
         }
 
         return command;

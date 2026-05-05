@@ -20,11 +20,14 @@ public static class ApplyMarkAction
         if (existingPower is not null)
         {
             existingPower.AddStacks(amount);
-            return true;
+        }
+        else
+        {
+            MarkPower markPower = (MarkPower)ModelDb.Power<MarkPower>().ToMutable();
+            markPower.ApplyInternal(target, amount, silent: false);
         }
 
-        MarkPower markPower = (MarkPower)ModelDb.Power<MarkPower>().ToMutable();
-        markPower.ApplyInternal(target, amount, silent: false);
+        LotusWorkshopPower.TryTrigger(target);
         return true;
     }
 

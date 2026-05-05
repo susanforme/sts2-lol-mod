@@ -88,6 +88,24 @@ public static class PlayerCombatStateResetEnergyPatch
 
         ActorsInstinctPower? instinctPower = player.Creature.GetPower<ActorsInstinctPower>();
         instinctPower?.OnTurnStart();
+
+        AestheticOfFourPower? fourPower = player.Creature.GetPower<AestheticOfFourPower>();
+        fourPower?.OnTurnStart(player);
+
+        CarefulArrangementPower? arrangePower = player.Creature.GetPower<CarefulArrangementPower>();
+        arrangePower?.OnTurnStart(player);
+
+        FinalActForeshadowingPower? foreshadowPower = player.Creature.GetPower<FinalActForeshadowingPower>();
+        foreshadowPower?.OnTurnStart(player);
+
+        FatemakerPower? fatemakerPower = player.Creature.GetPower<FatemakerPower>();
+        fatemakerPower?.OnTurnStart(player);
+
+        PerfectCrimePower? perfectCrimePower = player.Creature.GetPower<PerfectCrimePower>();
+        perfectCrimePower?.OnTurnStart();
+
+        FinalActArtPower? finalActArtPower = player.Creature.GetPower<FinalActArtPower>();
+        finalActArtPower?.OnTurnStart(player);
     }
 }
 

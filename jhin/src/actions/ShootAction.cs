@@ -24,15 +24,26 @@ public static class ShootAction
         return target?.GetPower<MarkPower>()?.Amount ?? 0;
     }
 
-    public static void ConsumeMarks(Creature? target)
+    public static void ConsumeMarks(Creature? target, MegaCrit.Sts2.Core.Entities.Players.Player? player = null)
     {
-        MarkPower? markPower = target?.GetPower<MarkPower>();
+        if (target is null)
+        {
+            return;
+        }
+
+        MarkPower? markPower = target.GetPower<MarkPower>();
         if (markPower is null)
         {
             return;
         }
 
-        target!.RemovePowerInternal(markPower);
+        int consumedCount = markPower.Amount;
+        target.RemovePowerInternal(markPower);
+
+        if (player is not null && consumedCount > 0)
+        {
+            MasterpieceBornPower.OnMarkConsumed(player);
+        }
     }
 
     /// <summary>
