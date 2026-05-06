@@ -14,10 +14,7 @@ public class MarkPower : CustomPowerModel, IAddDumbVariablesToPowerDescription
 
     public override int DisplayAmount => Amount;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromKeyword(Cards.JhinKeywords.Mark),
-    ];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [];
 
     public void AddDumbVariablesToPowerDescription(LocString description)
     {

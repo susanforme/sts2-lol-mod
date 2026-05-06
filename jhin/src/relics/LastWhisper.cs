@@ -33,26 +33,30 @@ public class LastWhisper : CustomRelicModel
     [
         HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
         HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
+        HoverTipFactory.FromKeyword(JhinKeywords.Reload),
     ];
 
     public override Task BeforeCombatStart()
     {
-        FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
+        ReloadEventBus.OnReloadTriggered += OnReloadTriggered;
         return Task.CompletedTask;
     }
 
     public override Task AfterCombatEnd(MegaCrit.Sts2.Core.Rooms.CombatRoom room)
     {
-        FlourishEventBus.OnFlourishTriggered -= OnFlourishTriggered;
+        ReloadEventBus.OnReloadTriggered -= OnReloadTriggered;
         return Task.CompletedTask;
     }
 
-    private void OnFlourishTriggered(Player player, JhinMagazineState state)
+    private void OnReloadTriggered(Player player, JhinMagazineState state, int bulletsBeforeReload)
     {
-        if (player == Owner)
+        if (player != Owner || bulletsBeforeReload >= state.MaxBullets)
         {
-            Flash();
+            return;
         }
+
+        Flash();
+        _ = JhinCombatActionUtil.Draw(null!, player, 2);
     }
 
     public override decimal ModifyDamageMultiplicative(

@@ -54,7 +54,7 @@
   "JHIN-COUNT_BEATS.title": "Count Beats",
   "JHIN-COUNT_BEATS.description": "Draw -1-+2+ card(s).\nIf you have 1 [gold]Bullet[/gold], draw 1 more.\n[gold]Exhaust.[/gold]",
   "JHIN-COMPOSED.title": "Composed",
-  "JHIN-COMPOSED.description": "The first [gold]Flourish[/gold] each combat: draw 2 cards.",
+  "JHIN-COMPOSED.description": "Whenever you trigger [gold]Flourish[/gold], draw 2 cards.",
   "JHIN-MUZZLE_RHYTHM.title": "Muzzle Rhythm",
   "JHIN-MUZZLE_RHYTHM.description": "Every 4th Attack card played: gain 1 Strength-. -+ and 1 Dexterity.+",
   "JHIN-AUDIENCE_SEATED.title": "Audience Seated",

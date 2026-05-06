@@ -12,7 +12,7 @@
   "JHIN-FORCED_FLOURISH_POWER.title": "华彩药剂",
   "JHIN-FORCED_FLOURISH_POWER.description": "本回合下一张[gold]射击[/gold]牌必定触发[gold]华彩[/gold]。",
   "JHIN-COMPOSED_POWER.title": "从容不迫",
-  "JHIN-COMPOSED_POWER.description": "本场战斗中首次触发[gold]华彩[/gold]时，抽 2 张牌。",
+  "JHIN-COMPOSED_POWER.description": "每当你触发[gold]华彩[/gold]时，抽 2 张牌。",
   "JHIN-MUZZLE_RHYTHM_POWER.title": "枪口节奏",
   "JHIN-MUZZLE_RHYTHM_POWER.description": "每打出 4 张攻击牌，获得 1 点力量。",
   "JHIN-MUZZLE_RHYTHM_POWER_PLUS.title": "枪口节奏",

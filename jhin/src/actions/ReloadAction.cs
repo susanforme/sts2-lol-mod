@@ -20,11 +20,12 @@ public static class ReloadAction
             return;
         }
 
+        int bulletsBeforeReload = state.Bullets;
         state.ReloadToFull();
 
         if (player is not null)
         {
-            ReloadEventBus.Notify(player, state);
+            ReloadEventBus.Notify(player, state, bulletsBeforeReload);
         }
     }
 }

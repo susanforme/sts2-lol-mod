@@ -67,7 +67,6 @@ public class BulletPower : CustomPowerModel
 
         if (Owner?.Player is not null)
         {
-            Owner.Player.GetRelic<Relics.ActFourScript>()?.ResetTurnFlag();
             Owner.Player.GetRelic<Relics.PerfectStage>()?.CheckTurnEnd();
         }
 

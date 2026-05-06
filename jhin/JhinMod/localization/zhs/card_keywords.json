@@ -1,12 +1,12 @@
 {
   "JHIN-BULLET.title": "子弹",
-  "JHIN-BULLET.description": "烬枪膛中倒数的四声。多数射击牌会消耗 1 层子弹；子弹耗尽后，将在下回合重新装填。",
+  "JHIN-BULLET.description": "烬枪膛中倒数的四声。多数射击牌会消耗 1 发子弹；子弹耗尽后，将在下回合重新装填。",
   "JHIN-FLOURISH.title": "华彩",
-  "JHIN-FLOURISH.description": "当一张射击牌真实消耗最后 1 层子弹时触发。华彩会结算该牌的华彩效果，并触发相关的遗物、能力牌与额外效果。",
+  "JHIN-FLOURISH.description": "当一张射击牌真实消耗最后 1 发子弹时触发。华彩会结算该牌的华彩效果，并触发相关的遗物、能力牌与额外效果。",
   "JHIN-MARK.title": "标记",
   "JHIN-MARK.description": "当烬下一张[gold]射击[/gold]牌命中带有标记的敌人时，每层额外造成 3 点伤害并移除所有标记。非射击伤害不会消耗标记。",
   "JHIN-LOTUS_TRAP.title": "莲花陷阱",
   "JHIN-LOTUS_TRAP.description": "敌人攻击后触发并移除。每层造成 6 点伤害并给予 1 层虚弱；若由该伤害击杀，额外对所有敌人每层造成 4 点伤害。",
   "JHIN-RELOAD.title": "装填",
-  "JHIN-RELOAD.description": "将你的[gold]子弹[/gold]恢复至 4 层，同时可能触发其他与装填相关的效果。"
+  "JHIN-RELOAD.description": "将你的[gold]子弹[/gold]恢复至 4 发，同时可能触发其他与装填相关的效果。"
 }

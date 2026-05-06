@@ -35,33 +35,32 @@ public class Whisper : CustomRelicModel
     [
         HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
         HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
+        HoverTipFactory.FromKeyword(JhinKeywords.Reload),
     ];
 
     public override Task BeforeCombatStart()
     {
-        FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
+        ReloadEventBus.OnReloadTriggered += OnReloadTriggered;
         return Task.CompletedTask;
     }
 
     public override Task AfterCombatEnd(MegaCrit.Sts2.Core.Rooms.CombatRoom room)
     {
-        FlourishEventBus.OnFlourishTriggered -= OnFlourishTriggered;
+        ReloadEventBus.OnReloadTriggered -= OnReloadTriggered;
         return Task.CompletedTask;
     }
 
-    private void OnFlourishTriggered(Player player, JhinMagazineState state)
+    private void OnReloadTriggered(Player player, JhinMagazineState state, int bulletsBeforeReload)
     {
-        if (player == Owner)
+        if (player != Owner || bulletsBeforeReload >= state.MaxBullets)
         {
-            Flash();
+            return;
         }
+
+        Flash();
+        _ = JhinCombatActionUtil.Draw(null!, player, 1);
     }
 
-    /// <summary>
-    /// Multiply flourish attack damage by 1.5.
-    /// Applies both during real play (FlourishContext.IsActive) and during drag preview
-    /// (card is a shoot card and the next shot would flourish).
-    /// </summary>
     public override decimal ModifyDamageMultiplicative(
         Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
@@ -70,13 +69,6 @@ public class Whisper : CustomRelicModel
             isFlourish: IsWouldFlourish(dealer, cardSource));
     }
 
-    /// <summary>
-    /// Add +6 damage when the target's HP is below 25% during a flourish.
-    /// This hook is called during both drag preview and real damage calculation,
-    /// so the displayed number and actual damage are always consistent.
-    /// Note: additive hooks run before block reduction, which matches the design intent
-    /// of a flat bonus on low-HP targets.
-    /// </summary>
     public override decimal ModifyDamageAdditive(
         Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
@@ -98,14 +90,12 @@ public class Whisper : CustomRelicModel
 
     private bool IsWouldFlourish(Creature? dealer, CardModel? cardSource)
     {
-        // Real play: flourish context is active
         if (FlourishContext.IsActive && dealer == Owner.Creature)
         {
             return true;
         }
 
-        // Preview: card is a shoot card and the next shot would flourish
-        if (cardSource is Cards.AbstractShootCard && cardSource.Owner == Owner)
+        if (cardSource is AbstractShootCard && cardSource.Owner == Owner)
         {
             JhinMagazineState? state = JhinMagazineStateRegistry.TryGet(Owner);
             if (state is not null && state.WouldFlourishOnNextShot())

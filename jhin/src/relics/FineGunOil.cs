@@ -45,7 +45,7 @@ public class FineGunOil : CustomRelicModel
         return Task.CompletedTask;
     }
 
-    private void OnReloadTriggered(Player player, JhinMagazineState state)
+    private void OnReloadTriggered(Player player, JhinMagazineState state, int bulletsBeforeReload)
     {
         if (player == Owner)
         {

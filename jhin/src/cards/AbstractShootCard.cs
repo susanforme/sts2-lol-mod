@@ -5,6 +5,8 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Actions;
 using jhin.Magazine;
 using jhin.Relics;
@@ -77,6 +79,30 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
     /// </summary>
     protected virtual void OnFlourish()
     {
+    }
+
+    protected virtual int GetAdditionalDamagePerMarkForPreview() => 0;
+
+    public override decimal ModifyDamageAdditive(
+        Creature? target,
+        decimal amount,
+        ValueProp props,
+        Creature? dealer,
+        CardModel? cardSource)
+    {
+        if (target is null || dealer != Owner?.Creature || cardSource != this)
+        {
+            return 0m;
+        }
+
+        int markAmount = ShootAction.GetMarkAmount(target);
+        if (markAmount <= 0)
+        {
+            return 0m;
+        }
+
+        int damagePerMark = Powers.MarkPower.DamagePerStack + GetAdditionalDamagePerMarkForPreview();
+        return markAmount * damagePerMark;
     }
 
     protected async Task<AttackCommand> PerformShootAttack(

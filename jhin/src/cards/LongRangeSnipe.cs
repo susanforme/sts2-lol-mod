@@ -35,6 +35,8 @@ public class LongRangeSnipe() : AbstractShootCard(
         description.Add("markDamagePerStack", IsUpgraded ? 4 : 3);
     }
 
+    protected override int GetAdditionalDamagePerMarkForPreview() => IsUpgraded ? 4 : 3;
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (!TryShoot(choiceContext))

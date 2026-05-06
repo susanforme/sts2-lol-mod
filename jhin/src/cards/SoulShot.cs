@@ -29,6 +29,8 @@ public class SoulShot() : AbstractShootCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Mark),
     ];
 
+    protected override int GetAdditionalDamagePerMarkForPreview() => 1;
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (!TryShoot(choiceContext) || cardPlay.Target is null || Owner.Creature is null)

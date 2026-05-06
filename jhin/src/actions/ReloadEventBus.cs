@@ -7,13 +7,13 @@ namespace jhin.Actions;
 
 public static class ReloadEventBus
 {
-    public delegate void ReloadTriggeredHandler(Player player, JhinMagazineState state);
+    public delegate void ReloadTriggeredHandler(Player player, JhinMagazineState state, int bulletsBeforeReload);
 
     public static event ReloadTriggeredHandler? OnReloadTriggered;
 
-    internal static void Notify(Player player, JhinMagazineState state)
+    internal static void Notify(Player player, JhinMagazineState state, int bulletsBeforeReload)
     {
-        OnReloadTriggered?.Invoke(player, state);
+        OnReloadTriggered?.Invoke(player, state, bulletsBeforeReload);
     }
 
     public static void ClearListeners()

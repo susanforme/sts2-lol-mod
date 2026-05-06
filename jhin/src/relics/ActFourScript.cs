@@ -26,11 +26,8 @@ public class ActFourScript : CustomRelicModel
         HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
     ];
 
-    private bool _triggeredThisTurn;
-
     public override Task BeforeCombatStart()
     {
-        _triggeredThisTurn = false;
         Actions.FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
         return Task.CompletedTask;
     }
@@ -43,15 +40,9 @@ public class ActFourScript : CustomRelicModel
 
     private void OnFlourishTriggered(MegaCrit.Sts2.Core.Entities.Players.Player player, Magazine.JhinMagazineState state)
     {
-        if (player != Owner || _triggeredThisTurn) return;
-        _triggeredThisTurn = true;
+        if (player != Owner) return;
         Flash();
         _ = PlayerCmd.GainEnergy(1m, player);
         _ = Actions.JhinCombatActionUtil.Draw(null!, player, 1);
-    }
-
-    public void ResetTurnFlag()
-    {
-        _triggeredThisTurn = false;
     }
 }

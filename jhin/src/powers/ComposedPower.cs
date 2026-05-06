@@ -20,8 +20,6 @@ public class ComposedPower : CustomPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
-    private bool _triggeredThisCombat;
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         HoverTipFactory.FromKeyword(Cards.JhinKeywords.Flourish),
@@ -29,18 +27,16 @@ public class ComposedPower : CustomPowerModel
 
     public void SubscribeEvents()
     {
-        _triggeredThisCombat = false;
         FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
     }
 
     private void OnFlourishTriggered(Player player, JhinMagazineState state)
     {
-        if (_triggeredThisCombat || player != Owner?.Player)
+        if (player != Owner?.Player)
         {
             return;
         }
 
-        _triggeredThisCombat = true;
         Flash();
         _ = JhinCombatActionUtil.Draw(null!, Owner.Player, 2);
     }

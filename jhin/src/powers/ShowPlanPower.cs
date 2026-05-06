@@ -38,7 +38,7 @@ public class ShowPlanPower : CustomPowerModel, IAddDumbVariablesToPowerDescripti
         ReloadEventBus.OnReloadTriggered += OnReloadTriggered;
     }
 
-    private void OnReloadTriggered(Player player, JhinMagazineState state)
+    private void OnReloadTriggered(Player player, JhinMagazineState state, int bulletsBeforeReload)
     {
         if (player != Owner?.Player || Owner?.Player?.Creature is null)
         {
