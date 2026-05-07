@@ -2,11 +2,8 @@
 
 using BaseLib.Abstracts;
 using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Cards;
 using jhin.Extensions;
 using System.Threading.Tasks;
@@ -29,6 +26,8 @@ public class FourthBullet : CustomRelicModel
 
     private bool _triggeredThisCombat;
 
+    public bool HasPendingFlourishDamageBonus => !_triggeredThisCombat;
+
     public override Task BeforeCombatStart()
     {
         _triggeredThisCombat = false;
@@ -45,16 +44,11 @@ public class FourthBullet : CustomRelicModel
     private void OnFlourishTriggered(MegaCrit.Sts2.Core.Entities.Players.Player player, Magazine.JhinMagazineState state)
     {
         if (player != Owner || _triggeredThisCombat) return;
-        _triggeredThisCombat = true;
         Flash();
     }
 
-    public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public void ConsumeFlourishDamageBonus()
     {
-        if (!_triggeredThisCombat && dealer == Owner?.Creature && Actions.FlourishContext.IsActive)
-        {
-            return 2m;
-        }
-        return 1m;
+        _triggeredThisCombat = true;
     }
 }

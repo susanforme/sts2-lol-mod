@@ -2,7 +2,6 @@
 
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Commands.Builders;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -17,6 +16,8 @@ namespace jhin.Cards;
 public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType target)
     : AbstractJhinCard(cost, CardType.Attack, rarity, target)
 {
+    private bool _didShootThisPlay;
+
     public virtual bool IsShootCard => true;
 
     protected override bool IsPlayable => base.IsPlayable && CanShoot();
@@ -42,9 +43,11 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
         if (result == ShootResult.Failed)
         {
             IsFlourishShot = false;
+            _didShootThisPlay = false;
             return false;
         }
 
+        _didShootThisPlay = true;
         IsFlourishShot = result == ShootResult.Flourish;
 
         if (IsFlourishShot)
@@ -67,10 +70,18 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
     /// </summary>
     protected void EndFlourishContext()
     {
+        if (_didShootThisPlay)
+        {
+            ConsumeOneTimeShootBonuses();
+            _didShootThisPlay = false;
+        }
+
         if (IsFlourishShot)
         {
             FlourishContext.End();
         }
+
+        IsFlourishShot = false;
     }
 
     /// <summary>
@@ -81,7 +92,53 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
     {
     }
 
-    protected virtual int GetAdditionalDamagePerMarkForPreview() => 0;
+    protected virtual int GetResolvedBaseDamage(bool isFlourish) => DynamicVars.Damage.IntValue;
+
+    protected virtual int GetBaseMarkDamagePerStack(bool isFlourish) => Powers.MarkPower.DamagePerStack;
+
+    protected virtual int GetAdditionalDamagePerMark(bool isFlourish) => 0;
+
+    protected virtual int GetFlatBonusDamage(Creature target, bool isFlourish) =>
+        Powers.PerfectTrajectoryPower.GetBonusShootDamage(Owner?.Creature);
+
+    protected virtual bool ShouldConsumeMarksAfterAttack() => true;
+
+    private bool IsFlourishForDamageCalculation(Creature? dealer, CardModel? cardSource)
+    {
+        if (dealer == Owner?.Creature && cardSource == this && IsFlourishShot)
+        {
+            return true;
+        }
+
+        JhinMagazineState? state = JhinMagazineStateRegistry.TryGet(Owner);
+        return state?.WouldFlourishOnNextShot() ?? false;
+    }
+
+    private ShootCardDamageInput BuildShootDamageInput(Creature target, bool isFlourish)
+    {
+        bool hasWhisper = Owner?.GetRelic<Relics.Whisper>() is not null;
+        bool hasLastWhisper = Owner?.GetRelic<Relics.LastWhisper>() is not null;
+        bool hasFourthBullet = Owner?.GetRelic<Relics.FourthBullet>()?.HasPendingFlourishDamageBonus == true;
+        bool hasFineGunOil = Owner?.GetRelic<Relics.FineGunOil>()?.HasPendingShootBonus == true;
+        bool isLowHp = DamageCalculationUtil.IsLowHp(target.CurrentHp, target.MaxHp);
+
+        return new ShootCardDamageInput(
+            DisplayedBaseDamage: DynamicVars.Damage.IntValue,
+            ResolvedBaseDamage: GetResolvedBaseDamage(isFlourish),
+            MarkStacks: ShootAction.GetMarkAmount(target),
+            BaseMarkDamagePerStack: GetBaseMarkDamagePerStack(isFlourish),
+            AdditionalDamagePerMark: GetAdditionalDamagePerMark(isFlourish),
+            FlatBonusDamage: GetFlatBonusDamage(target, isFlourish) + (hasFineGunOil ? 4 : 0),
+            IsLowHp: isLowHp,
+            DamageMultiplier: DamageCalculationUtil.GetShootDamageMultiplier(isFlourish, hasWhisper, hasLastWhisper, hasFourthBullet),
+            PostMultiplierFlatBonusDamage: DamageCalculationUtil.GetShootPostMultiplierFlatBonus(isFlourish, isLowHp, hasWhisper, hasLastWhisper),
+            IsFlourish: isFlourish);
+    }
+
+    protected ShootDamageCalculationResult CalculateShootDamage(Creature target, bool isFlourish)
+    {
+        return DamageCalculationUtil.CalculateShootDamage(BuildShootDamageInput(target, isFlourish));
+    }
 
     public override decimal ModifyDamageAdditive(
         Creature? target,
@@ -95,42 +152,58 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
             return 0m;
         }
 
-        int markAmount = ShootAction.GetMarkAmount(target);
-        if (markAmount <= 0)
-        {
-            return 0m;
-        }
-
-        int damagePerMark = Powers.MarkPower.DamagePerStack + GetAdditionalDamagePerMarkForPreview();
-        return markAmount * damagePerMark;
+        bool isFlourish = IsFlourishForDamageCalculation(dealer, cardSource);
+        ShootDamageCalculationResult damageResult = CalculateShootDamage(target, isFlourish);
+        return damageResult.TotalDamage - DynamicVars.Damage.IntValue;
     }
 
-    protected async Task<AttackCommand> PerformShootAttack(
+    protected async Task PerformShootAttack(
         PlayerChoiceContext choiceContext,
-        Creature target,
-        int extraCardDamagePerMark = 0)
+        Creature target)
     {
         int markAmount = ShootAction.GetMarkAmount(target);
-        bool isLowHp = DamageCalculationUtil.IsLowHp(target.CurrentHp, target.MaxHp);
-        ShootDamageCalculationResult damageResult = DamageCalculationUtil.CalculateShootDamage(
-            baseDamage: DynamicVars.Damage.IntValue,
-            isFlourish: IsFlourishShot,
-            markStacks: markAmount,
-            isLowHp: isLowHp,
-            hasWhisper: false,
-            extraDamagePerMark: extraCardDamagePerMark);
+        ShootDamageCalculationResult damageResult = CalculateShootDamage(target, IsFlourishShot);
 
-        int bonusDamage = jhin.Powers.PerfectTrajectoryPower.GetBonusShootDamage(Owner?.Creature);
+        await MegaCrit.Sts2.Core.Commands.CreatureCmd.Damage(
+            choiceContext,
+            target,
+            damageResult.TotalDamage,
+            ValueProp.Move,
+            Owner.Creature,
+            null);
 
-        AttackCommand command = await CommonActions
-            .CardAttack(this, target, damageResult.TotalDamage + bonusDamage, 1, null, null, null)
-            .Execute(choiceContext);
-
-        if (markAmount > 0)
+        if (markAmount > 0 && ShouldConsumeMarksAfterAttack())
         {
             ShootAction.ConsumeMarks(target, Owner);
         }
+    }
 
-        return command;
+    protected async Task DealRawBonusDamage(
+        PlayerChoiceContext choiceContext,
+        Creature? target,
+        int damage)
+    {
+        if (target is null || damage <= 0 || Owner.Creature is null)
+        {
+            return;
+        }
+
+        await MegaCrit.Sts2.Core.Commands.CreatureCmd.Damage(
+            choiceContext,
+            target,
+            damage,
+            ValueProp.Move,
+            Owner.Creature,
+            null);
+    }
+
+    private void ConsumeOneTimeShootBonuses()
+    {
+        Owner?.GetRelic<Relics.FineGunOil>()?.ConsumeShootBonus();
+
+        if (IsFlourishShot)
+        {
+            Owner?.GetRelic<Relics.FourthBullet>()?.ConsumeFlourishDamageBonus();
+        }
     }
 }

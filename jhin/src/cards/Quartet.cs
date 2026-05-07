@@ -20,6 +20,9 @@ public class Quartet() : AbstractShootCard(
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5, ValueProp.Move)];
 
+    protected override int GetResolvedBaseDamage(bool isFlourish) =>
+        isFlourish ? (IsUpgraded ? 8 : 7) : DynamicVars.Damage.IntValue;
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
@@ -30,7 +33,6 @@ public class Quartet() : AbstractShootCard(
     {
         if (!TryShoot(choiceContext) || Owner.Creature?.CombatState is null || Owner.PlayerRng is null) return;
 
-        int perHitDamage = IsFlourishShot ? (IsUpgraded ? 8 : 7) : DynamicVars.Damage.IntValue;
         List<Creature> aliveEnemies = Owner.Creature.CombatState.HittableEnemies.Where(e => e.IsAlive).ToList();
 
         for (int i = 0; i < 4; i++)
@@ -38,7 +40,7 @@ public class Quartet() : AbstractShootCard(
             if (aliveEnemies.Count == 0) break;
 
             Creature target = Owner.PlayerRng.Transformations.NextItem(aliveEnemies) ?? aliveEnemies[0];
-            await CreatureCmd.Damage(choiceContext, target, perHitDamage, ValueProp.Move, Owner.Creature, this);
+            await PerformShootAttack(choiceContext, target);
 
             aliveEnemies = Owner.Creature.CombatState.HittableEnemies.Where(e => e.IsAlive).ToList();
         }

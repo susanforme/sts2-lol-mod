@@ -36,7 +36,7 @@ public class WhisperVolley() : AbstractShootCard(
         List<Creature> enemies = Owner.Creature.CombatState.HittableEnemies.Where(e => e.IsAlive).ToList();
         foreach (Creature enemy in enemies)
         {
-            await CommonActions.CardAttack(this, enemy, DynamicVars.Damage.IntValue, 1, null, null, null).Execute(choiceContext);
+            await PerformShootAttack(choiceContext, enemy);
         }
 
         if (IsFlourishShot)
@@ -44,7 +44,7 @@ public class WhisperVolley() : AbstractShootCard(
             int bonusDmg = IsUpgraded ? 4 : 3;
             foreach (Creature enemy in enemies.Where(e => e.IsAlive))
             {
-                await CommonActions.CardAttack(this, enemy, bonusDmg, 1, null, null, null).Execute(choiceContext);
+                await DealRawBonusDamage(choiceContext, enemy, bonusDmg);
             }
         }
 

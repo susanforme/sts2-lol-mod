@@ -35,7 +35,7 @@ public class LongRangeSnipe() : AbstractShootCard(
         description.Add("markDamagePerStack", IsUpgraded ? 4 : 3);
     }
 
-    protected override int GetAdditionalDamagePerMarkForPreview() => IsUpgraded ? 4 : 3;
+    protected override int GetAdditionalDamagePerMark(bool isFlourish) => IsUpgraded ? 4 : 3;
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -44,7 +44,7 @@ public class LongRangeSnipe() : AbstractShootCard(
             return;
         }
 
-        await PerformShootAttack(choiceContext, cardPlay.Target, extraCardDamagePerMark: IsUpgraded ? 4 : 3);
+        await PerformShootAttack(choiceContext, cardPlay.Target);
         EndFlourishContext();
     }
 

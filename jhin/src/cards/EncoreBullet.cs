@@ -41,7 +41,7 @@ public class EncoreBullet() : AbstractShootCard(
         if (JhinCombatActionUtil.HasPlayedSkillThisTurn(Owner))
         {
             int bonusDamage = IsUpgraded ? 6 : 5;
-            await CommonActions.CardAttack(this, cardPlay.Target, bonusDamage, 1, null, null, null).Execute(choiceContext);
+            await DealRawBonusDamage(choiceContext, cardPlay.Target, bonusDamage);
         }
 
         EndFlourishContext();

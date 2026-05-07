@@ -2,12 +2,9 @@
 
 using BaseLib.Abstracts;
 using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Cards;
 using jhin.Extensions;
 using jhin.Magazine;
@@ -32,6 +29,8 @@ public class FineGunOil : CustomRelicModel
 
     private bool _nextShootBoosted;
 
+    public bool HasPendingShootBonus => _nextShootBoosted;
+
     public override Task BeforeCombatStart()
     {
         _nextShootBoosted = false;
@@ -54,13 +53,8 @@ public class FineGunOil : CustomRelicModel
         }
     }
 
-    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public void ConsumeShootBonus()
     {
-        if (_nextShootBoosted && dealer == Owner?.Creature && cardSource is AbstractShootCard)
-        {
-            _nextShootBoosted = false;
-            return 4m;
-        }
-        return 0m;
+        _nextShootBoosted = false;
     }
 }

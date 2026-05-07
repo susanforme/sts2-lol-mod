@@ -9,11 +9,24 @@ public readonly record struct ShootDamageCalculationResult(
     int BaseDamage,
     int MarkBonusDamage,
     int CardSpecificMarkBonusDamage,
+    int FlatBonusDamage,
     int DamageBeforeWhisper,
     bool AppliedWhisperFlourishMultiplier,
     int DamageAfterWhisperMultiplier,
     int WhisperLowHpBonusDamage,
     int TotalDamage);
+
+public readonly record struct ShootCardDamageInput(
+    int DisplayedBaseDamage,
+    int ResolvedBaseDamage,
+    int MarkStacks,
+    int BaseMarkDamagePerStack,
+    int AdditionalDamagePerMark,
+    int FlatBonusDamage,
+    bool IsLowHp,
+    decimal DamageMultiplier,
+    int PostMultiplierFlatBonusDamage,
+    bool IsFlourish);
 
 public static class DamageCalculationUtil
 {
@@ -40,37 +53,81 @@ public static class DamageCalculationUtil
     /// <summary>
     /// Calculates final shoot damage from base damage, mark stacks, and Whisper-related modifiers.
     /// </summary>
-    public static ShootDamageCalculationResult CalculateShootDamage(
-        int baseDamage,
-        bool isFlourish,
-        int markStacks,
-        bool isLowHp,
-        bool hasWhisper,
-        int extraDamagePerMark = 0)
+    public static ShootDamageCalculationResult CalculateShootDamage(ShootCardDamageInput input)
     {
-        int markBonusDamage = markStacks * ConstantUtil.MarkDamagePerStack;
-        int cardSpecificMarkBonusDamage = markStacks * extraDamagePerMark;
-        int damageBeforeWhisper = baseDamage + markBonusDamage + cardSpecificMarkBonusDamage;
-        bool appliedWhisperFlourishMultiplier = hasWhisper && isFlourish;
+        int markBonusDamage = input.MarkStacks * input.BaseMarkDamagePerStack;
+        int cardSpecificMarkBonusDamage = input.MarkStacks * input.AdditionalDamagePerMark;
+        int damageBeforeWhisper = input.ResolvedBaseDamage + markBonusDamage + cardSpecificMarkBonusDamage + input.FlatBonusDamage;
+        bool appliedWhisperFlourishMultiplier = input.DamageMultiplier != 1m;
         int damageAfterWhisperMultiplier = damageBeforeWhisper;
-        int whisperLowHpBonusDamage = GetWhisperLowHpBonusDamage(hasWhisper, isFlourish, isLowHp);
+        int whisperLowHpBonusDamage = input.PostMultiplierFlatBonusDamage;
 
         if (appliedWhisperFlourishMultiplier)
         {
-            damageAfterWhisperMultiplier = decimal.ToInt32(decimal.Floor(damageBeforeWhisper * GetWhisperFlourishMultiplier(hasWhisper, isFlourish)));
+            damageAfterWhisperMultiplier = decimal.ToInt32(decimal.Floor(damageBeforeWhisper * input.DamageMultiplier));
         }
 
         int totalDamage = damageAfterWhisperMultiplier + whisperLowHpBonusDamage;
 
         return new ShootDamageCalculationResult(
-            BaseDamage: baseDamage,
+            BaseDamage: input.ResolvedBaseDamage,
             MarkBonusDamage: markBonusDamage,
             CardSpecificMarkBonusDamage: cardSpecificMarkBonusDamage,
+            FlatBonusDamage: input.FlatBonusDamage,
             DamageBeforeWhisper: damageBeforeWhisper,
             AppliedWhisperFlourishMultiplier: appliedWhisperFlourishMultiplier,
             DamageAfterWhisperMultiplier: damageAfterWhisperMultiplier,
             WhisperLowHpBonusDamage: whisperLowHpBonusDamage,
             TotalDamage: totalDamage);
+    }
+
+    public static decimal GetShootDamageMultiplier(bool isFlourish, bool hasWhisper, bool hasLastWhisper, bool hasFourthBullet)
+    {
+        if (!isFlourish)
+        {
+            return 1m;
+        }
+
+        decimal multiplier = 1m;
+
+        if (hasWhisper)
+        {
+            multiplier *= ConstantUtil.WhisperFlourishMultiplier;
+        }
+
+        if (hasLastWhisper)
+        {
+            multiplier *= ConstantUtil.LastWhisperFlourishMultiplier;
+        }
+
+        if (hasFourthBullet)
+        {
+            multiplier *= 2m;
+        }
+
+        return multiplier;
+    }
+
+    public static int GetShootPostMultiplierFlatBonus(bool isFlourish, bool isLowHp, bool hasWhisper, bool hasLastWhisper)
+    {
+        if (!isFlourish || !isLowHp)
+        {
+            return 0;
+        }
+
+        int bonus = 0;
+
+        if (hasWhisper)
+        {
+            bonus += ConstantUtil.WhisperLowHpBonusDamage;
+        }
+
+        if (hasLastWhisper)
+        {
+            bonus += ConstantUtil.LastWhisperLowHpBonusDamage;
+        }
+
+        return bonus;
     }
 
     /// <summary>

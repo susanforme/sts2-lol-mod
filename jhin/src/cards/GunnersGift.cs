@@ -32,9 +32,9 @@ public class GunnersGift() : AbstractShootCard(
             return;
         }
 
-        IEnumerable<DamageResult> results = await CreatureCmd.Damage(choiceContext, cardPlay.Target, DynamicVars.Damage.IntValue, ValueProp.Move, Owner.Creature, this);
-        DamageResult? primaryResult = results.FirstOrDefault(r => r.Receiver == cardPlay.Target);
-        if (primaryResult?.WasTargetKilled ?? false)
+        await PerformShootAttack(choiceContext, cardPlay.Target);
+
+        if (!cardPlay.Target.IsAlive)
         {
             await CreatureCmd.GainBlock(Owner.Creature, IsUpgraded ? 15 : 12, ValueProp.Move, null, false);
         }

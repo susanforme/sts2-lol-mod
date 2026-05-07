@@ -29,7 +29,7 @@ public class DeadlyShot() : AbstractShootCard(
 
         if (cardPlay.Target is not null && cardPlay.Target.IsAlive && cardPlay.Target.GetPower<MegaCrit.Sts2.Core.Models.Powers.WeakPower>() is null)
         {
-            await CommonActions.CardAttack(this, cardPlay.Target, IsUpgraded ? 8 : 6, 1, null, null, null).Execute(choiceContext);
+            await DealRawBonusDamage(choiceContext, cardPlay.Target, IsUpgraded ? 8 : 6);
         }
 
         EndFlourishContext();

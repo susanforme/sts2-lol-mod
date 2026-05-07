@@ -40,7 +40,7 @@ public class PiercingRound() : AbstractShootCard(
 
         foreach (Creature enemy in Owner.Creature.CombatState.HittableEnemies.Where(enemy => enemy.IsAlive))
         {
-            await CreatureCmd.Damage(choiceContext, enemy, DynamicVars.Damage.IntValue, ValueProp.Move, Owner.Creature, this);
+            await PerformShootAttack(choiceContext, enemy);
         }
 
         EndFlourishContext();

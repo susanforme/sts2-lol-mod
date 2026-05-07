@@ -28,7 +28,7 @@ public class StaccatoFire() : AbstractShootCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (!TryShoot(choiceContext) || cardPlay.Target is null || Owner.Creature is null)
+        if (!TryShoot(choiceContext) || cardPlay.Target is null)
         {
             return;
         }
@@ -41,7 +41,7 @@ public class StaccatoFire() : AbstractShootCard(
                 break;
             }
 
-            await CreatureCmd.Damage(choiceContext, cardPlay.Target, DynamicVars.Damage.IntValue, ValueProp.Move, Owner.Creature, this);
+            await PerformShootAttack(choiceContext, cardPlay.Target);
         }
 
         EndFlourishContext();

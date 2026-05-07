@@ -30,11 +30,13 @@ public class PerfectHit() : AbstractShootCard(
     {
         if (!TryShoot(choiceContext)) return;
 
+        bool hadMark = cardPlay.Target is not null && ShootAction.GetMarkAmount(cardPlay.Target) > 0;
+
         await PerformShootAttack(choiceContext, cardPlay.Target);
 
-        if (cardPlay.Target is not null && cardPlay.Target.IsAlive && ShootAction.GetMarkAmount(cardPlay.Target) > 0)
+        if (cardPlay.Target is not null && cardPlay.Target.IsAlive && hadMark)
         {
-            await CommonActions.CardAttack(this, cardPlay.Target, IsUpgraded ? 15 : 12, 1, null, null, null).Execute(choiceContext);
+            await DealRawBonusDamage(choiceContext, cardPlay.Target, IsUpgraded ? 15 : 12);
         }
 
         EndFlourishContext();
