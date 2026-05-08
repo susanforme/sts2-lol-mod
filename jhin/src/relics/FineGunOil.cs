@@ -4,6 +4,7 @@ using BaseLib.Abstracts;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using jhin.Cards;
 using jhin.Extensions;
@@ -44,7 +45,7 @@ public class FineGunOil : CustomRelicModel
         return Task.CompletedTask;
     }
 
-    private void OnReloadTriggered(Player player, JhinMagazineState state, int bulletsBeforeReload)
+    private void OnReloadTriggered(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state, int bulletsBeforeReload)
     {
         if (player == Owner)
         {

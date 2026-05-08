@@ -28,7 +28,7 @@ public class CalmReload() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ReloadAction.Execute(Owner);
+        ReloadAction.Execute(choiceContext, Owner);
         await CommonActions.CardBlock(this, cardPlay);
     }
 

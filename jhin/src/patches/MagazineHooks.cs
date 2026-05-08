@@ -86,14 +86,16 @@ public static class PlayerCombatStateResetEnergyPatch
             return;
         }
 
+        PlayerChoiceContext choiceContext = new BlockingPlayerChoiceContext();
+
         ActorsInstinctPower? instinctPower = player.Creature.GetPower<ActorsInstinctPower>();
         instinctPower?.OnTurnStart();
 
         AestheticOfFourPower? fourPower = player.Creature.GetPower<AestheticOfFourPower>();
-        fourPower?.OnTurnStart(player);
+        fourPower?.OnTurnStart(choiceContext, player);
 
         CarefulArrangementPower? arrangePower = player.Creature.GetPower<CarefulArrangementPower>();
-        arrangePower?.OnTurnStart(player);
+        arrangePower?.OnTurnStart(choiceContext, player);
 
         FinalActForeshadowingPower? foreshadowPower = player.Creature.GetPower<FinalActForeshadowingPower>();
         foreshadowPower?.OnTurnStart(player);

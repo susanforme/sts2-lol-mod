@@ -15,7 +15,7 @@ public class AestheticOfFourPower : CustomPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
-    public void OnTurnStart(Player player)
+    public void OnTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         JhinMagazineState? state = JhinMagazineStateRegistry.TryGet(player);
         if (state is null || state.Bullets != 4)
@@ -28,7 +28,7 @@ public class AestheticOfFourPower : CustomPowerModel
 
         if (Amount > 1)
         {
-            _ = JhinCombatActionUtil.Draw(null!, player, 1);
+            _ = JhinCombatActionUtil.Draw(choiceContext, player, 1);
         }
     }
 }

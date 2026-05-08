@@ -3,6 +3,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using jhin.Magazine;
 using jhin.Powers;
 using jhin.Relics;
@@ -26,7 +27,7 @@ public static class ShootAction
         return target?.GetPower<MarkPower>()?.Amount ?? 0;
     }
 
-    public static void ConsumeMarks(Creature? target, MegaCrit.Sts2.Core.Entities.Players.Player? player = null)
+    public static void ConsumeMarks(PlayerChoiceContext choiceContext, Creature? target, MegaCrit.Sts2.Core.Entities.Players.Player? player = null)
     {
         if (target is null)
         {
@@ -44,7 +45,7 @@ public static class ShootAction
 
         if (player is not null && consumedCount > 0)
         {
-            MasterpieceBornPower.OnMarkConsumed(player);
+            MasterpieceBornPower.OnMarkConsumed(choiceContext, player);
 
             if (!target.IsAlive && player.GetRelic<Relics.ShowTicket>() is not null)
             {

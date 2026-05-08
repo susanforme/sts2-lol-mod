@@ -1,6 +1,7 @@
 #nullable enable
 
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using jhin.Magazine;
 
 namespace jhin.Actions;
@@ -12,7 +13,7 @@ namespace jhin.Actions;
 /// </summary>
 public static class FlourishEventBus
 {
-    public delegate void FlourishTriggeredHandler(Player player, JhinMagazineState state);
+    public delegate void FlourishTriggeredHandler(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state);
 
     /// <summary>
     /// Fired after the last bullet is consumed and flourish is confirmed.
@@ -20,9 +21,9 @@ public static class FlourishEventBus
     /// </summary>
     public static event FlourishTriggeredHandler? OnFlourishTriggered;
 
-    internal static void Notify(Player player, JhinMagazineState state)
+    internal static void Notify(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state)
     {
-        OnFlourishTriggered?.Invoke(player, state);
+        OnFlourishTriggered?.Invoke(choiceContext, player, state);
     }
 
     /// <summary>

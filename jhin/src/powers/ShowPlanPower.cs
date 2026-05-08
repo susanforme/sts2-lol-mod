@@ -5,6 +5,7 @@ using BaseLib.Patches.Localization;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -38,7 +39,7 @@ public class ShowPlanPower : CustomPowerModel, IAddDumbVariablesToPowerDescripti
         ReloadEventBus.OnReloadTriggered += OnReloadTriggered;
     }
 
-    private void OnReloadTriggered(Player player, JhinMagazineState state, int bulletsBeforeReload)
+    private void OnReloadTriggered(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state, int bulletsBeforeReload)
     {
         if (player != Owner?.Player || Owner?.Player?.Creature is null)
         {

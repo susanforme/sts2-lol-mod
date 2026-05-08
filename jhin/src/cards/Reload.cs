@@ -29,7 +29,7 @@ public class Reload() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ReloadAction.Execute(Owner);
+        ReloadAction.Execute(choiceContext, Owner);
         JhinCombatActionUtil.DisableFlourishThisTurn(Owner);
         await JhinCombatActionUtil.Draw(choiceContext, Owner, IsUpgraded ? 2 : 1);
     }

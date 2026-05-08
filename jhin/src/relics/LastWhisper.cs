@@ -4,6 +4,7 @@ using BaseLib.Abstracts;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using jhin.Actions;
@@ -44,7 +45,7 @@ public class LastWhisper : CustomRelicModel
         return Task.CompletedTask;
     }
 
-    private void OnReloadTriggered(Player player, JhinMagazineState state, int bulletsBeforeReload)
+    private void OnReloadTriggered(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state, int bulletsBeforeReload)
     {
         if (player != Owner || bulletsBeforeReload >= state.MaxBullets)
         {
@@ -52,6 +53,6 @@ public class LastWhisper : CustomRelicModel
         }
 
         Flash();
-        _ = JhinCombatActionUtil.Draw(null!, player, 2);
+        _ = JhinCombatActionUtil.Draw(choiceContext, player, 2);
     }
 }

@@ -39,7 +39,7 @@ public class GunMaintenancePower : CustomPowerModel, IAddDumbVariablesToPowerDes
         ReloadEventBus.OnReloadTriggered += OnReloadTriggered;
     }
 
-    private void OnReloadTriggered(Player player, JhinMagazineState state, int bulletsBeforeReload)
+    private void OnReloadTriggered(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state, int bulletsBeforeReload)
     {
         if (player != Owner?.Player)
         {
@@ -47,7 +47,7 @@ public class GunMaintenancePower : CustomPowerModel, IAddDumbVariablesToPowerDes
         }
 
         Flash();
-        _ = JhinCombatActionUtil.Draw(null!, player, 1);
+        _ = JhinCombatActionUtil.Draw(choiceContext, player, 1);
 
         if (Amount > 1 && Owner is not null)
         {

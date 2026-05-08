@@ -38,11 +38,11 @@ public class ActFourScript : CustomRelicModel
         return Task.CompletedTask;
     }
 
-    private void OnFlourishTriggered(MegaCrit.Sts2.Core.Entities.Players.Player player, Magazine.JhinMagazineState state)
+    private void OnFlourishTriggered(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext choiceContext, MegaCrit.Sts2.Core.Entities.Players.Player player, Magazine.JhinMagazineState state)
     {
         if (player != Owner) return;
         Flash();
         _ = PlayerCmd.GainEnergy(1m, player);
-        _ = Actions.JhinCombatActionUtil.Draw(null!, player, 1);
+        _ = Actions.JhinCombatActionUtil.Draw(choiceContext, player, 1);
     }
 }

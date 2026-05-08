@@ -30,7 +30,7 @@ public class ComposedPower : CustomPowerModel
         FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
     }
 
-    private void OnFlourishTriggered(Player player, JhinMagazineState state)
+    private void OnFlourishTriggered(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state)
     {
         if (player != Owner?.Player)
         {
@@ -38,6 +38,6 @@ public class ComposedPower : CustomPowerModel
         }
 
         Flash();
-        _ = JhinCombatActionUtil.Draw(null!, Owner.Player, 2);
+        _ = JhinCombatActionUtil.Draw(choiceContext, Owner.Player, 2);
     }
 }

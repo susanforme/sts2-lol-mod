@@ -25,7 +25,7 @@ public class PerfectReload() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ReloadAction.Execute(Owner);
+        ReloadAction.Execute(choiceContext, Owner);
         await JhinCombatActionUtil.ApplyOrStackStrength(Owner.Creature, IsUpgraded ? 3 : 2);
     }
 

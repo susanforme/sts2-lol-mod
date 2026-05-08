@@ -26,7 +26,7 @@ public class PerfectLoading() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ReloadAction.Execute(Owner);
+        ReloadAction.Execute(choiceContext, Owner);
         int energyAmount = IsUpgraded ? 3 : 2;
         _ = PlayerCmd.GainEnergy(energyAmount, Owner);
         if (IsUpgraded)

@@ -59,7 +59,7 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
             JhinMagazineState? state = JhinMagazineStateRegistry.TryGet(Owner);
             if (state is not null && Owner is not null)
             {
-                FlourishEventBus.Notify(Owner, state);
+                FlourishEventBus.Notify(choiceContext, Owner, state);
             }
         }
 
@@ -177,7 +177,7 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
 
         if (markAmount > 0 && ShouldConsumeMarksAfterAttack())
         {
-            ShootAction.ConsumeMarks(target, Owner);
+            ShootAction.ConsumeMarks(choiceContext, target, Owner);
         }
     }
 

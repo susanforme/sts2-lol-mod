@@ -28,7 +28,7 @@ public class MasterpieceBornPower : CustomPowerModel, IAddDumbVariablesToPowerDe
         HoverTipFactory.FromKeyword(Cards.JhinKeywords.Mark),
     ];
 
-    public static void OnMarkConsumed(Player player)
+    public static void OnMarkConsumed(PlayerChoiceContext choiceContext, Player player)
     {
         if (player?.Creature is null || !player.Creature.IsAlive)
         {
@@ -43,6 +43,6 @@ public class MasterpieceBornPower : CustomPowerModel, IAddDumbVariablesToPowerDe
 
         power.Flash();
         int drawAmount = power.Amount > 1 ? 2 : 1;
-        _ = JhinCombatActionUtil.Draw(null!, player, drawAmount);
+        _ = JhinCombatActionUtil.Draw(choiceContext, player, drawAmount);
     }
 }

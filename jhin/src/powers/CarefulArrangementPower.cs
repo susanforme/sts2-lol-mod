@@ -21,10 +21,10 @@ public class CarefulArrangementPower : CustomPowerModel, IAddDumbVariablesToPowe
         description.Add("drawAmount", Amount > 1 ? 2 : 1);
     }
 
-    public void OnTurnStart(Player player)
+    public void OnTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         Flash();
         int drawAmount = Amount > 1 ? 2 : 1;
-        _ = JhinCombatActionUtil.Draw(null!, player, drawAmount);
+        _ = JhinCombatActionUtil.Draw(choiceContext, player, drawAmount);
     }
 }

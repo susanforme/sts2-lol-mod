@@ -33,7 +33,7 @@ public class AudienceCheerPower : CustomPowerModel, IAddDumbVariablesToPowerDesc
         FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
     }
 
-    private void OnFlourishTriggered(Player player, JhinMagazineState state)
+    private void OnFlourishTriggered(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state)
     {
         if (player != Owner?.Player)
         {

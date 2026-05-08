@@ -28,7 +28,7 @@ public class FinalActReload() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ReloadAction.Execute(Owner);
+        ReloadAction.Execute(choiceContext, Owner);
         await JhinCombatActionUtil.Draw(choiceContext, Owner, 3);
 
         await CommonActions.ApplySelf<ForcedFlourishPower>(choiceContext, this, 1);

@@ -34,7 +34,7 @@ public class WhisperEchoPower : CustomPowerModel, IAddDumbVariablesToPowerDescri
         FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
     }
 
-    private void OnFlourishTriggered(Player player, JhinMagazineState state)
+    private void OnFlourishTriggered(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state)
     {
         if (player != Owner?.Player)
         {
@@ -45,6 +45,6 @@ public class WhisperEchoPower : CustomPowerModel, IAddDumbVariablesToPowerDescri
         int energyAmount = Amount > 1 ? 2 : 1;
         int drawAmount = Amount > 1 ? 2 : 1;
         _ = PlayerCmd.GainEnergy(energyAmount, player);
-        _ = JhinCombatActionUtil.Draw(null!, player, drawAmount);
+        _ = JhinCombatActionUtil.Draw(choiceContext, player, drawAmount);
     }
 }

@@ -41,7 +41,7 @@ public class FourthBullet : CustomRelicModel
         return Task.CompletedTask;
     }
 
-    private void OnFlourishTriggered(MegaCrit.Sts2.Core.Entities.Players.Player player, Magazine.JhinMagazineState state)
+    private void OnFlourishTriggered(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext choiceContext, MegaCrit.Sts2.Core.Entities.Players.Player player, Magazine.JhinMagazineState state)
     {
         if (player != Owner || _triggeredThisCombat) return;
         Flash();

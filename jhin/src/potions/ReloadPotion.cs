@@ -29,8 +29,8 @@ public class ReloadPotion : CustomPotionModel
 
     protected override Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        ReloadAction.Execute(Owner);
-        _ = JhinCombatActionUtil.Draw(null!, Owner, 1);
+        ReloadAction.Execute(choiceContext, Owner);
+        _ = JhinCombatActionUtil.Draw(choiceContext, Owner, 1);
         return Task.CompletedTask;
     }
 }

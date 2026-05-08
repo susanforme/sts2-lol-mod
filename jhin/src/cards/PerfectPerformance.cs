@@ -28,7 +28,7 @@ public class PerfectPerformance() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ReloadAction.Execute(Owner);
+        ReloadAction.Execute(choiceContext, Owner);
         await CommonActions.CardBlock(this, cardPlay);
         _ = PlayerCmd.GainEnergy(IsUpgraded ? 3m : 2m, Owner);
     }

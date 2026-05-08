@@ -16,6 +16,8 @@ public static class JhinCombatActionUtil
 {
     public static Task Draw(PlayerChoiceContext choiceContext, Player? player, int amount)
     {
+        ArgumentNullException.ThrowIfNull(choiceContext);
+
         if (player is null || amount <= 0)
         {
             return Task.CompletedTask;
