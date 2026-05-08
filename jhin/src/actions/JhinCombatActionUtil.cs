@@ -7,8 +7,11 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Magazine;
 using jhin.Powers;
+using jhin.Relics;
+using jhin.Utils;
 
 namespace jhin.Actions;
 
@@ -36,6 +39,135 @@ public static class JhinCombatActionUtil
         }
 
         return PlayerCmd.GainEnergy(amount, player);
+    }
+
+    public static void GainMaxEnergy(Player? player, int amount)
+    {
+        if (player?.PlayerCombatState is null || amount <= 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < amount; i++)
+        {
+            player.PlayerCombatState.AddMaxEnergyToCurrent();
+        }
+    }
+
+    public static Creature? GetRandomLivingEnemy(Player? player)
+    {
+        if (player?.Creature?.CombatState is null || player.PlayerRng is null)
+        {
+            return null;
+        }
+
+        List<Creature> enemies = player.Creature.CombatState.HittableEnemies
+            .Where(enemy => enemy.IsAlive)
+            .ToList();
+
+        return enemies.Count == 0
+            ? null
+            : player.PlayerRng.Transformations.NextItem(enemies);
+    }
+
+    public static ShootCardDamageInput BuildGenericShootDamageInput(
+        Player? player,
+        Creature? target,
+        int displayedBaseDamage,
+        int resolvedBaseDamage,
+        int baseMarkDamagePerStack,
+        int additionalDamagePerMark,
+        int flatBonusDamage,
+        bool isFlourish)
+    {
+        if (target is null)
+        {
+            return default;
+        }
+
+        bool hasWhisper = player?.GetRelic<Whisper>() is not null;
+        bool hasLastWhisper = player?.GetRelic<LastWhisper>() is not null;
+        bool hasFourthBullet = player?.GetRelic<FourthBullet>()?.HasPendingFlourishDamageBonus == true;
+        bool hasFineGunOil = player?.GetRelic<FineGunOil>()?.HasPendingShootBonus == true;
+        bool isLowHp = DamageCalculationUtil.IsLowHp(target.CurrentHp, target.MaxHp);
+
+        return new ShootCardDamageInput(
+            DisplayedBaseDamage: displayedBaseDamage,
+            ResolvedBaseDamage: resolvedBaseDamage,
+            MarkStacks: ShootAction.GetMarkAmount(target),
+            BaseMarkDamagePerStack: baseMarkDamagePerStack,
+            AdditionalDamagePerMark: additionalDamagePerMark,
+            FlatBonusDamage: flatBonusDamage + (hasFineGunOil ? 4 : 0),
+            IsLowHp: isLowHp,
+            DamageMultiplier: DamageCalculationUtil.GetShootDamageMultiplier(isFlourish, hasWhisper, hasLastWhisper, hasFourthBullet),
+            PostMultiplierFlatBonusDamage: DamageCalculationUtil.GetShootPostMultiplierFlatBonus(isFlourish, isLowHp, hasWhisper, hasLastWhisper),
+            IsFlourish: isFlourish);
+    }
+
+    public static ShootDamageCalculationResult CalculateGenericShootDamage(Player? player, Creature? target, int baseDamage, bool isFlourish)
+    {
+        ShootCardDamageInput input = BuildGenericShootDamageInput(
+            player,
+            target,
+            displayedBaseDamage: baseDamage,
+            resolvedBaseDamage: baseDamage,
+            baseMarkDamagePerStack: MarkPower.DamagePerStack,
+            additionalDamagePerMark: 0,
+            flatBonusDamage: PerfectTrajectoryPower.GetBonusShootDamage(player?.Creature),
+            isFlourish: isFlourish);
+
+        return DamageCalculationUtil.CalculateShootDamage(input);
+    }
+
+    public static async Task<bool> ExecuteRandomEnemyShoot(PlayerChoiceContext choiceContext, Player? player, int baseDamage)
+    {
+        if (player?.Creature is null || !player.Creature.IsAlive || baseDamage <= 0)
+        {
+            return false;
+        }
+
+        Creature? target = GetRandomLivingEnemy(player);
+        if (target is null)
+        {
+            return false;
+        }
+
+        ShootResult result = ShootAction.Execute(player);
+        if (result == ShootResult.Failed)
+        {
+            return false;
+        }
+
+        bool isFlourish = result == ShootResult.Flourish;
+        if (isFlourish)
+        {
+            ShootAction.TriggerFlourish(choiceContext, player);
+        }
+
+        int markAmount = ShootAction.GetMarkAmount(target);
+
+        try
+        {
+            ShootDamageCalculationResult damageResult = CalculateGenericShootDamage(player, target, baseDamage, isFlourish);
+            await CreatureCmd.Damage(choiceContext, target, damageResult.TotalDamage, ValueProp.Move, player.Creature);
+
+            if (markAmount > 0)
+            {
+                ShootAction.ConsumeMarks(choiceContext, target, player);
+            }
+
+            return true;
+        }
+        finally
+        {
+            player.GetRelic<FineGunOil>()?.ConsumeShootBonus();
+
+            if (isFlourish)
+            {
+                player.GetRelic<FourthBullet>()?.ConsumeFlourishDamageBonus();
+                FlourishContext.End();
+            }
+        }
     }
 
     public static bool HasShotThisTurn(Player? player)

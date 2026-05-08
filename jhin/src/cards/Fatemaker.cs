@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Combat;
+using jhin.Actions;
 using jhin.CardPools;
 using jhin.Powers;
 
@@ -25,6 +26,7 @@ public class Fatemaker() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        JhinCombatActionUtil.GainMaxEnergy(Owner, 1);
         await CommonActions.ApplySelf<FatemakerPower>(choiceContext, this, IsUpgraded ? 2 : 1);
     }
 

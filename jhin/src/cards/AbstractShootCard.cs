@@ -54,13 +54,7 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
         if (IsFlourishShot)
         {
             OnFlourish();
-            FlourishContext.Begin();
-
-            JhinMagazineState? state = JhinMagazineStateRegistry.TryGet(Owner);
-            if (state is not null && Owner is not null)
-            {
-                FlourishEventBus.Notify(choiceContext, Owner, state);
-            }
+            ShootAction.TriggerFlourish(choiceContext, Owner);
         }
 
         return true;
@@ -117,23 +111,15 @@ public abstract class AbstractShootCard(int cost, CardRarity rarity, TargetType 
 
     private ShootCardDamageInput BuildShootDamageInput(Creature target, bool isFlourish)
     {
-        bool hasWhisper = Owner?.GetRelic<Relics.Whisper>() is not null;
-        bool hasLastWhisper = Owner?.GetRelic<Relics.LastWhisper>() is not null;
-        bool hasFourthBullet = Owner?.GetRelic<Relics.FourthBullet>()?.HasPendingFlourishDamageBonus == true;
-        bool hasFineGunOil = Owner?.GetRelic<Relics.FineGunOil>()?.HasPendingShootBonus == true;
-        bool isLowHp = DamageCalculationUtil.IsLowHp(target.CurrentHp, target.MaxHp);
-
-        return new ShootCardDamageInput(
-            DisplayedBaseDamage: DynamicVars.Damage.IntValue,
-            ResolvedBaseDamage: GetResolvedBaseDamage(isFlourish),
-            MarkStacks: ShootAction.GetMarkAmount(target),
-            BaseMarkDamagePerStack: GetBaseMarkDamagePerStack(isFlourish),
-            AdditionalDamagePerMark: GetAdditionalDamagePerMark(isFlourish),
-            FlatBonusDamage: GetFlatBonusDamage(target, isFlourish) + (hasFineGunOil ? 4 : 0),
-            IsLowHp: isLowHp,
-            DamageMultiplier: DamageCalculationUtil.GetShootDamageMultiplier(isFlourish, hasWhisper, hasLastWhisper, hasFourthBullet),
-            PostMultiplierFlatBonusDamage: DamageCalculationUtil.GetShootPostMultiplierFlatBonus(isFlourish, isLowHp, hasWhisper, hasLastWhisper),
-            IsFlourish: isFlourish);
+        return JhinCombatActionUtil.BuildGenericShootDamageInput(
+            Owner,
+            target,
+            displayedBaseDamage: DynamicVars.Damage.IntValue,
+            resolvedBaseDamage: GetResolvedBaseDamage(isFlourish),
+            baseMarkDamagePerStack: GetBaseMarkDamagePerStack(isFlourish),
+            additionalDamagePerMark: GetAdditionalDamagePerMark(isFlourish),
+            flatBonusDamage: GetFlatBonusDamage(target, isFlourish),
+            isFlourish: isFlourish);
     }
 
     protected ShootDamageCalculationResult CalculateShootDamage(Creature target, bool isFlourish)

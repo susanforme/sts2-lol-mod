@@ -174,7 +174,7 @@
   "JHIN-WHISPER_ECHO.title": "Whisper Echo",
   "JHIN-WHISPER_ECHO.description": "When you trigger [gold]Flourish[/gold], gain -1-+2+ Energy and draw -1-+2+ card(s).",
   "JHIN-FATEMAKER.title": "Fatemaker",
-  "JHIN-FATEMAKER.description": "Increase your max [gold]Bullets[/gold] by -1-+2+.\nAt the start of your turn, gain -1-+2+ Energy.",
+  "JHIN-FATEMAKER.description": "Increase your Max Energy by 1.\nAt the start of your turn, automatically fire 1 [gold]Bullet[/gold] at a random enemy for -6-+9+ damage.",
   "JHIN-PERFECT_CRIME.title": "Perfect Crime",
   "JHIN-PERFECT_CRIME.description": "Gain -4-+5+ Strength.\nAt the start of your turn, gain -1-+2+ additional Strength.",
   "JHIN-FINAL_ACT_ART.title": "Final Act Art",

@@ -80,4 +80,21 @@ public static class ShootAction
 
         return isFlourish ? ShootResult.Flourish : ShootResult.Normal;
     }
+
+    public static void TriggerFlourish(PlayerChoiceContext choiceContext, Player? player)
+    {
+        if (player is null)
+        {
+            return;
+        }
+
+        JhinMagazineState? state = JhinMagazineStateRegistry.TryGet(player);
+        if (state is null)
+        {
+            return;
+        }
+
+        FlourishContext.Begin();
+        FlourishEventBus.Notify(choiceContext, player, state);
+    }
 }

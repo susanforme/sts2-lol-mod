@@ -56,7 +56,7 @@
   "JHIN-WHISPER_ECHO_POWER.title": "低语回响",
   "JHIN-WHISPER_ECHO_POWER.description": "每当你触发[gold]华彩[/gold]时，获得 {energyAmount} 点能量并抽 {drawAmount} 张牌。",
   "JHIN-FATEMAKER_POWER.title": "戏命师",
-  "JHIN-FATEMAKER_POWER.description": "你的[gold]子弹[/gold]上限增加 {extraBullets}。每回合开始时，获得 {energyAmount} 点能量。",
+  "JHIN-FATEMAKER_POWER.description": "每回合开始时，自动射出 1 发[gold]子弹[/gold]，随机对 1 名敌人造成 {damage} 点伤害。",
   "JHIN-PERFECT_CRIME_POWER.title": "完美犯罪",
   "JHIN-PERFECT_CRIME_POWER.description": "每回合开始时，获得 {gainAmount} 点力量。",
   "JHIN-FINAL_ACT_ART_POWER.title": "终幕艺术",

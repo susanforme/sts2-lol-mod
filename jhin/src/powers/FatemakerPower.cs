@@ -2,13 +2,13 @@
 
 using BaseLib.Abstracts;
 using BaseLib.Patches.Localization;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
-using jhin.Magazine;
+using jhin.Actions;
 
 namespace jhin.Powers;
 
@@ -24,23 +24,25 @@ public class FatemakerPower : CustomPowerModel, IAddDumbVariablesToPowerDescript
 
     public void AddDumbVariablesToPowerDescription(LocString description)
     {
-        description.Add("extraBullets", Amount > 1 ? 2 : 1);
-        description.Add("energyAmount", Amount > 1 ? 2 : 1);
+        description.Add("damage", Amount > 1 ? 9 : 6);
     }
 
     public void OnTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
-        JhinMagazineState? state = JhinMagazineStateRegistry.TryGet(player);
-        if (state is null)
+        if (player != Owner?.Player || Owner is null || !Owner.IsAlive)
         {
             return;
         }
 
-        int extraBullets = Amount > 1 ? 2 : 1;
-        state.IncreaseMaxBullets(extraBullets);
+        TaskHelper.RunSafely(FireTurnStartShot(choiceContext, player));
+    }
 
-        Flash();
-        int energyAmount = Amount > 1 ? 2 : 1;
-        _ = PlayerCmd.GainEnergy(energyAmount, player);
+    private async Task FireTurnStartShot(PlayerChoiceContext choiceContext, Player player)
+    {
+        bool fired = await JhinCombatActionUtil.ExecuteRandomEnemyShoot(choiceContext, player, Amount > 1 ? 9 : 6);
+        if (fired)
+        {
+            Flash();
+        }
     }
 }
