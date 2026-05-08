@@ -43,4 +43,6 @@ public class DeathMonologue() : AbstractJhinCard(
     {
         DynamicVars.Damage.UpgradeValueBy(5m);
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

@@ -46,4 +46,6 @@ public class GunnersGift() : AbstractShootCard(
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

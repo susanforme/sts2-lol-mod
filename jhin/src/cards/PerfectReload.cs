@@ -32,4 +32,6 @@ public class PerfectReload() : AbstractJhinCard(
     protected override void OnUpgrade()
     {
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

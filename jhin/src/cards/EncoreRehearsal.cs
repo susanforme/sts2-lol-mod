@@ -47,4 +47,6 @@ public class EncoreRehearsal() : AbstractShootCard(
     {
         DynamicVars.Damage.UpgradeValueBy(2m);
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

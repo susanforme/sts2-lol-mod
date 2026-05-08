@@ -37,4 +37,6 @@ public class PerfectPerformance() : AbstractJhinCard(
     {
         DynamicVars.Block.UpgradeValueBy(5m);
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

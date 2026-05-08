@@ -47,4 +47,6 @@ public class FullHouseCheer() : AbstractJhinCard(
     {
         DynamicVars.Damage.UpgradeValueBy(4m);
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

@@ -41,4 +41,6 @@ public class PerfectFinale() : AbstractJhinCard(
     {
         DynamicVars.Block.UpgradeValueBy(4m);
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

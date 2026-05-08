@@ -39,4 +39,6 @@ public class GorgeousExecution() : AbstractJhinCard(
     {
         DynamicVars.Damage.UpgradeValueBy(6m);
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

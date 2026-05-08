@@ -38,4 +38,6 @@ public class ShowPause() : AbstractJhinCard(
     protected override void OnUpgrade()
     {
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

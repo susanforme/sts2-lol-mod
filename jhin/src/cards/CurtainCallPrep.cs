@@ -29,4 +29,6 @@ public class CurtainCallPrep() : AbstractJhinCard(
     protected override void OnUpgrade()
     {
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

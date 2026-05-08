@@ -40,4 +40,6 @@ public class PerfectLoading() : AbstractJhinCard(
     protected override void OnUpgrade()
     {
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

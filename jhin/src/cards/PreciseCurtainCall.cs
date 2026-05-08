@@ -39,4 +39,6 @@ public class PreciseCurtainCall() : AbstractJhinCard(
     protected override void OnUpgrade()
     {
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }

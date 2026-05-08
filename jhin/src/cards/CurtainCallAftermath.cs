@@ -39,4 +39,6 @@ public class CurtainCallAftermath() : AbstractJhinCard(
     {
         DynamicVars.Damage.UpgradeValueBy(8m);
     }
+
+    protected override PileType GetResultPileType() => PileType.Exhaust;
 }
