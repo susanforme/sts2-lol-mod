@@ -96,19 +96,27 @@ jobs:
           $branch = "${{ github.ref_name }}" -replace '[\\/:*?"<>|]', '-'
           $time = Get-Date -Format "yyyyMMdd-HHmmss"
           $zip = "$PWD\dist\jhin-$branch-$time.zip"
+          $baseLibZip = "$PWD\dist\BaseLib.zip"
           Compress-Archive -Path "dist\$env:MOD_ID\*" -DestinationPath $zip
+          if (Test-Path $baseLibZip) { Remove-Item $baseLibZip -Force }
+          Compress-Archive -Path "lib\BaseLib\*" -DestinationPath $baseLibZip
           echo "ZIP=$zip" >> $env:GITHUB_ENV
+          echo "BASELIB_ZIP=$baseLibZip" >> $env:GITHUB_ENV
           echo "RELEASE_NAME=jhin-$branch-$time" >> $env:GITHUB_ENV
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: JhinMod
-          path: ${{ env.ZIP }}
+          path: |
+            ${{ env.ZIP }}
+            ${{ env.BASELIB_ZIP }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_NAME }}
           name: ${{ env.RELEASE_NAME }}
-          files: ${{ env.ZIP }}
+          files: |
+            ${{ env.ZIP }}
+            ${{ env.BASELIB_ZIP }}
