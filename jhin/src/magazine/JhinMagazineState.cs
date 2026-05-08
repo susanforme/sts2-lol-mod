@@ -5,6 +5,17 @@ using jhin.Powers;
 
 namespace jhin.Magazine;
 
+[Flags]
+public enum MagazineStateChange
+{
+    None = 0,
+    Bullets = 1 << 0,
+    MaxBullets = 1 << 1,
+    FlourishState = 1 << 2,
+    TurnState = 1 << 3,
+    PlayStats = 1 << 4,
+}
+
 public sealed class JhinMagazineState
 {
     private bool _flourishDisabledThisTurn;
@@ -23,6 +34,7 @@ public sealed class JhinMagazineState
     public BulletPower? AppliedPower { get; private set; }
     public bool HasForcedFlourish => _forceNextShotFlourish;
     public bool HasTriggeredFlourishThisTurn => FlourishCountThisTurn > 0;
+    public event Action<JhinMagazineState, MagazineStateChange>? StateChanged;
 
     public void InitializeCombat()
     {
@@ -37,24 +49,31 @@ public sealed class JhinMagazineState
         CardsPlayedThisTurn = 0;
         _flourishDisabledThisTurn = false;
         _forceNextShotFlourish = false;
-        SyncPower();
+        NotifyStateChanged(MagazineStateChange.Bullets | MagazineStateChange.MaxBullets | MagazineStateChange.FlourishState | MagazineStateChange.TurnState | MagazineStateChange.PlayStats);
     }
 
     public void IncreaseMaxBullets(int amount)
     {
+        int previousBullets = Bullets;
         MaxBullets = BaseMaxBullets + amount;
         if (Bullets > MaxBullets)
         {
             Bullets = MaxBullets;
         }
 
-        SyncPowerForce();
+        MagazineStateChange change = MagazineStateChange.MaxBullets;
+        if (Bullets != previousBullets)
+        {
+            change |= MagazineStateChange.Bullets;
+        }
+
+        NotifyStateChanged(change);
     }
 
     public void SetBulletsToZero()
     {
         Bullets = 0;
-        SyncPowerForce();
+        NotifyStateChanged(MagazineStateChange.Bullets);
     }
 
     public void RestoreBullet()
@@ -62,7 +81,7 @@ public sealed class JhinMagazineState
         if (Bullets < MaxBullets)
         {
             Bullets++;
-            SyncPowerForce();
+            NotifyStateChanged(MagazineStateChange.Bullets);
         }
     }
 
@@ -81,14 +100,13 @@ public sealed class JhinMagazineState
         AttackCardCountThisTurn = 0;
         _flourishDisabledThisTurn = false;
 
+        MagazineStateChange change = MagazineStateChange.FlourishState | MagazineStateChange.TurnState | MagazineStateChange.PlayStats;
         if (reloaded)
         {
-            SyncPowerForce();
+            change |= MagazineStateChange.Bullets;
         }
-        else
-        {
-            SyncPower();
-        }
+
+        NotifyStateChanged(change);
     }
 
     public bool CanShoot()
@@ -110,7 +128,7 @@ public sealed class JhinMagazineState
 
         Bullets--;
         UsedShootThisTurn = true;
-        SyncPower();
+        NotifyStateChanged(MagazineStateChange.Bullets | MagazineStateChange.TurnState);
         return true;
     }
 
@@ -138,76 +156,72 @@ public sealed class JhinMagazineState
             FlourishCountThisCombat++;
         }
 
-        SyncPower();
+        NotifyStateChanged(MagazineStateChange.Bullets | MagazineStateChange.FlourishState | MagazineStateChange.TurnState);
         return didFlourish;
     }
 
     public void ReloadToFull()
     {
         Bullets = MaxBullets;
-        SyncPowerForce();
+        NotifyStateChanged(MagazineStateChange.Bullets);
     }
 
     public void RecordSkillPlayed()
     {
         UsedSkillThisTurn = true;
+        NotifyStateChanged(MagazineStateChange.PlayStats);
     }
 
     public void RecordNonShootAttackPlayed()
     {
         UsedNonShootAttackThisTurn = true;
+        NotifyStateChanged(MagazineStateChange.PlayStats);
     }
 
     public void RecordAttackCardPlayed()
     {
         AttackCardCountThisTurn++;
+        NotifyStateChanged(MagazineStateChange.PlayStats);
     }
 
     public void IncrementCardsPlayed()
     {
         CardsPlayedThisTurn++;
+        NotifyStateChanged(MagazineStateChange.PlayStats);
     }
 
     public void DisableFlourishThisTurn()
     {
         _flourishDisabledThisTurn = true;
         _forceNextShotFlourish = false;
+        NotifyStateChanged(MagazineStateChange.FlourishState);
     }
 
     public void ForceNextShotFlourish()
     {
         _forceNextShotFlourish = true;
+        NotifyStateChanged(MagazineStateChange.FlourishState);
     }
 
     public void AttachPower(BulletPower power)
     {
+        AppliedPower?.UnsubscribeFromMagazine(this);
         AppliedPower = power;
-        SyncPower();
+        AppliedPower.SubscribeToMagazine(this);
     }
 
     public void DetachPower()
     {
+        AppliedPower?.UnsubscribeFromMagazine(this);
         AppliedPower = null;
     }
 
-    private void SyncPower()
+    private void NotifyStateChanged(MagazineStateChange change)
     {
-        AppliedPower?.SyncFrom(this);
-    }
-
-    /// <summary>
-    /// Forces a Power notification even if the Amount hasn't changed,
-    /// ensuring CombatStateTracker picks up the state change.
-    /// </summary>
-    private void SyncPowerForce()
-    {
-        if (AppliedPower is null) return;
-        // Temporarily set a different value (silent) so the real SetAmount always has delta != 0.
-        if (AppliedPower.Amount == Bullets)
+        if (change != MagazineStateChange.None)
         {
-            AppliedPower.SetAmount(Bullets > 0 ? Bullets - 1 : Bullets + 1, silent: true);
+            StateChanged?.Invoke(this, change);
         }
-        AppliedPower.SyncFrom(this);
     }
 }
 

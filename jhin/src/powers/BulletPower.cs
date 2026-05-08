@@ -1,3 +1,5 @@
+#nullable enable
+
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -11,6 +13,8 @@ namespace jhin.Powers;
 
 public class BulletPower : CustomPowerModel
 {
+    private JhinMagazineState? _subscribedState;
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
@@ -24,6 +28,67 @@ public class BulletPower : CustomPowerModel
     public void SyncFrom(JhinMagazineState state)
     {
         SetAmount(state.Bullets);
+    }
+
+    public void SubscribeToMagazine(JhinMagazineState state)
+    {
+        if (ReferenceEquals(_subscribedState, state))
+        {
+            SyncFrom(state);
+            return;
+        }
+
+        UnsubscribeFromMagazine(_subscribedState);
+        _subscribedState = state;
+        state.StateChanged += OnMagazineStateChanged;
+        SyncFrom(state);
+    }
+
+    public void UnsubscribeFromMagazine(JhinMagazineState? state)
+    {
+        if (state is null)
+        {
+            return;
+        }
+
+        state.StateChanged -= OnMagazineStateChanged;
+        if (ReferenceEquals(_subscribedState, state))
+        {
+            _subscribedState = null;
+        }
+    }
+
+    private void OnMagazineStateChanged(JhinMagazineState state, MagazineStateChange change)
+    {
+        if (change.HasFlag(MagazineStateChange.Bullets))
+        {
+            SyncFrom(state);
+        }
+
+        if (change.HasFlag(MagazineStateChange.MaxBullets)
+            || change.HasFlag(MagazineStateChange.FlourishState)
+            || change.HasFlag(MagazineStateChange.TurnState)
+            || change.HasFlag(MagazineStateChange.PlayStats))
+        {
+            RefreshCombatState();
+        }
+    }
+
+    private static void RefreshCombatState()
+    {
+        CombatManager? combatManager = CombatManager.Instance;
+        if (combatManager?.StateTracker is null)
+        {
+            return;
+        }
+
+        var state = combatManager.DebugOnlyGetState();
+        if (state is null)
+        {
+            return;
+        }
+
+        combatManager.StateTracker.SetState(state);
     }
 
     public override Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
