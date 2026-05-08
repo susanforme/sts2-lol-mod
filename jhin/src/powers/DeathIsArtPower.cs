@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using jhin.Actions;
+using jhin.Utils;
 using System.Collections.Generic;
 
 namespace jhin.Powers;
@@ -31,17 +32,15 @@ public class DeathIsArtPower : CustomPowerModel, IAddDumbVariablesToPowerDescrip
         DeathIsArtPower? power = creature.GetPower<DeathIsArtPower>();
         if (power is null) return;
 
-        foreach (Creature enemy in creature.CombatState.HittableEnemies)
-        {
-            if (!enemy.IsAlive || power._triggeredEnemies.Contains(enemy)) continue;
-
-            if (enemy.MaxHp > 0 && (decimal)enemy.CurrentHp / enemy.MaxHp < 0.5m)
+        EnemyThresholdTriggerUtil.TriggerOncePerEnemyBelowHpThreshold(
+            creature.CombatState.HittableEnemies,
+            power._triggeredEnemies,
+            0.5m,
+            enemy =>
             {
-                power._triggeredEnemies.Add(enemy);
                 power.Flash();
                 int strAmount = power.Amount > 1 ? 2 : 1;
                 _ = JhinCombatActionUtil.ApplyOrStackStrength(creature, strAmount);
-            }
-        }
+            });
     }
 }

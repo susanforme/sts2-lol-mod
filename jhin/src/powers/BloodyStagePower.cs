@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using jhin.Actions;
+using jhin.Utils;
 
 namespace jhin.Powers;
 
@@ -22,7 +23,7 @@ public class BloodyStagePower : CustomPowerModel, IAddDumbVariablesToPowerDescri
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
-    private readonly HashSet<int> _triggeredEnemyIds = [];
+    private readonly HashSet<Creature> _triggeredEnemies = [];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
@@ -46,22 +47,16 @@ public class BloodyStagePower : CustomPowerModel, IAddDumbVariablesToPowerDescri
             return Task.CompletedTask;
         }
 
-        foreach (Creature enemy in Owner.CombatState.HittableEnemies.Where(e => e.IsAlive))
-        {
-            int enemyId = enemy.GetHashCode();
-            if (_triggeredEnemyIds.Contains(enemyId))
+        EnemyThresholdTriggerUtil.TriggerOncePerEnemyBelowHpThreshold(
+            Owner.CombatState.HittableEnemies,
+            _triggeredEnemies,
+            0.5m,
+            enemy =>
             {
-                continue;
-            }
-
-            if (enemy.MaxHp > 0 && (decimal)enemy.CurrentHp / enemy.MaxHp < 0.5m)
-            {
-                _triggeredEnemyIds.Add(enemyId);
                 Flash();
                 int markAmount = Amount > 1 ? 3 : 2;
                 _ = ApplyMarkAction.Execute(enemy, markAmount);
-            }
-        }
+            });
 
         return Task.CompletedTask;
     }
