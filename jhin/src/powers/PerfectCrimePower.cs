@@ -30,6 +30,6 @@ public class PerfectCrimePower : CustomPowerModel, IAddDumbVariablesToPowerDescr
 
         Flash();
         int gainAmount = Amount > 1 ? 2 : 1;
-        JhinCombatActionUtil.ApplyOrStackStrength(Owner, gainAmount);
+        _ = JhinCombatActionUtil.ApplyOrStackStrength(Owner, gainAmount);
     }
 }

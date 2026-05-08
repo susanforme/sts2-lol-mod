@@ -2,13 +2,13 @@
 
 using BaseLib.Abstracts;
 using BaseLib.Patches.Localization;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Utils;
@@ -93,7 +93,7 @@ public class LotusTrapPower : CustomPowerModel, IAddDumbVariablesToPowerDescript
                 continue;
             }
 
-            ApplyOrStackWeak(target, amount);
+            _ = ApplyOrStackWeak(target, amount);
         }
     }
 
@@ -110,18 +110,9 @@ public class LotusTrapPower : CustomPowerModel, IAddDumbVariablesToPowerDescript
         }
     }
 
-    private static void ApplyOrStackWeak(Creature target, int amount)
+    private static async Task ApplyOrStackWeak(Creature target, int amount)
     {
-        WeakPower? existingPower = target.GetPower<WeakPower>();
-        if (existingPower is not null)
-        {
-            existingPower.SetAmount(existingPower.Amount + amount, silent: false);
-        }
-        else
-        {
-            WeakPower weakPower = (WeakPower)ModelDb.Power<WeakPower>().ToMutable();
-            weakPower.ApplyInternal(target, amount, silent: false);
-        }
+        await CommonActions.Apply<WeakPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
 
         StageControlPower.TryApplyMarkOnWeak(target, target);
     }

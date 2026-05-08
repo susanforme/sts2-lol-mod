@@ -30,11 +30,9 @@ public class ShowPause() : AbstractJhinCard(
         {
             if (enemy.IsAlive)
             {
-                JhinCombatActionUtil.ApplyOrStackWeak(enemy, weakAmount, Owner.Creature);
+                await JhinCombatActionUtil.ApplyOrStackWeak(enemy, weakAmount, Owner.Creature);
             }
         }
-
-        await Task.CompletedTask;
     }
 
     protected override void OnUpgrade()

@@ -35,7 +35,7 @@ public class SilentAudience() : AbstractJhinCard(
         {
             if (enemy.IsAlive)
             {
-                JhinCombatActionUtil.ApplyOrStackWeak(enemy, weakAmount);
+                await JhinCombatActionUtil.ApplyOrStackWeak(enemy, weakAmount);
             }
         }
     }

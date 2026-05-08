@@ -49,11 +49,11 @@ public class ActorsInstinctPower : CustomPowerModel
 
         _shouldGrantBuffNextTurn = false;
         Flash();
-        JhinCombatActionUtil.ApplyOrStackStrength(Owner, 1);
+        _ = JhinCombatActionUtil.ApplyOrStackStrength(Owner, 1);
 
         if (Amount > 1)
         {
-            JhinCombatActionUtil.ApplyOrStackDexterity(Owner, 1);
+            _ = JhinCombatActionUtil.ApplyOrStackDexterity(Owner, 1);
         }
     }
 }

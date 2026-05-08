@@ -36,7 +36,7 @@ public class AimShot() : AbstractShootCard(
         }
 
         await PerformShootAttack(choiceContext, cardPlay.Target);
-        ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 2 : 1);
+        await ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 2 : 1);
         EndFlourishContext();
     }
 

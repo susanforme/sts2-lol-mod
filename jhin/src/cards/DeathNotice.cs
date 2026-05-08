@@ -30,9 +30,8 @@ public class DeathNotice() : AbstractJhinCard(
             return;
         }
 
-        ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 3 : 2);
-        JhinCombatActionUtil.ApplyOrStackVulnerable(cardPlay.Target, IsUpgraded ? 2 : 1);
-        await Task.CompletedTask;
+        await ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 3 : 2);
+        await JhinCombatActionUtil.ApplyOrStackVulnerable(cardPlay.Target, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()

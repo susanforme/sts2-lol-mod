@@ -34,7 +34,7 @@ public class DeathBloom() : AbstractJhinCard(
         }
 
         await CommonActions.CardAttack(this, cardPlay.Target, DynamicVars.Damage.IntValue, 1, null, null, null).Execute(choiceContext);
-        ApplyLotusTrapAction.Execute(cardPlay.Target, IsUpgraded ? 3 : 2);
+        await ApplyLotusTrapAction.Execute(cardPlay.Target, IsUpgraded ? 3 : 2);
     }
 
     protected override void OnUpgrade()

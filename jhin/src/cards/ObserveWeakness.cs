@@ -35,7 +35,7 @@ public class ObserveWeakness() : AbstractJhinCard(
             return;
         }
 
-        ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 3 : 2);
+        await ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 3 : 2);
 
         if (cardPlay.Target.MaxHp > 0 && (decimal)cardPlay.Target.CurrentHp / cardPlay.Target.MaxHp < 0.5m)
         {

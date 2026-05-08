@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using jhin.Actions;
 using jhin.CardPools;
@@ -30,21 +29,18 @@ public class AudienceSeated() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Mark),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        AudienceSeatedPower power = (AudienceSeatedPower)ModelDb.Power<AudienceSeatedPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, 1, silent: false);
+        await CommonActions.ApplySelf<AudienceSeatedPower>(choiceContext, this, 1);
 
         // Apply 1 mark to all enemies immediately
         if (Owner.Creature?.CombatState is not null)
         {
             foreach (Creature enemy in Owner.Creature.CombatState.HittableEnemies.Where(e => e.IsAlive))
             {
-                ApplyMarkAction.Execute(enemy, 1);
+                await ApplyMarkAction.Execute(enemy, 1);
             }
         }
-
-        return Task.CompletedTask;
     }
 
     protected override void OnUpgrade()

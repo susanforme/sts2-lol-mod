@@ -24,11 +24,9 @@ public class LotusWorkshop() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.LotusTrap),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        LotusWorkshopPower power = (LotusWorkshopPower)MegaCrit.Sts2.Core.Models.ModelDb.Power<LotusWorkshopPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        return Task.CompletedTask;
+        await CommonActions.ApplySelf<LotusWorkshopPower>(choiceContext, this, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()

@@ -31,7 +31,7 @@ public class SetTheStage() : AbstractJhinCard(
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
-        ApplyMarkAction.ExecuteRandomEnemy(Owner, IsUpgraded ? 2 : 1);
+        await ApplyMarkAction.ExecuteRandomEnemy(Owner, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()

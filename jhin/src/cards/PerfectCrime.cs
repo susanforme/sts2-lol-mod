@@ -18,15 +18,12 @@ public class PerfectCrime() : AbstractJhinCard(
 {
     protected override IEnumerable<MegaCrit.Sts2.Core.Localization.DynamicVars.DynamicVar> CanonicalVars => [];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        PerfectCrimePower power = (PerfectCrimePower)MegaCrit.Sts2.Core.Models.ModelDb.Power<PerfectCrimePower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
+        await CommonActions.ApplySelf<PerfectCrimePower>(choiceContext, this, IsUpgraded ? 2 : 1);
 
         int initialStr = IsUpgraded ? 5 : 4;
-        JhinCombatActionUtil.ApplyOrStackStrength(Owner.Creature, initialStr);
-
-        return Task.CompletedTask;
+        await JhinCombatActionUtil.ApplyOrStackStrength(Owner.Creature, initialStr);
     }
 
     protected override void OnUpgrade()

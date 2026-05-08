@@ -35,7 +35,7 @@ public class DeathMonologue() : AbstractJhinCard(
         DamageResult? primaryResult = results.FirstOrDefault(r => r.Receiver == cardPlay.Target);
         if (primaryResult?.WasTargetKilled ?? false)
         {
-            JhinCombatActionUtil.ApplyOrStackStrength(Owner.Creature, 2);
+            await JhinCombatActionUtil.ApplyOrStackStrength(Owner.Creature, 2);
         }
     }
 

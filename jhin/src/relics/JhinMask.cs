@@ -37,7 +37,7 @@ public class JhinMask : CustomRelicModel
 
         foreach (var enemy in combatState.HittableEnemies.Where(enemy => enemy.IsAlive))
         {
-            ApplyMarkAction.Execute(enemy, 1);
+            _ = ApplyMarkAction.Execute(enemy, 1);
         }
 
         Flash();

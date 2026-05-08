@@ -59,7 +59,7 @@ public class BloodyStageP : CustomPowerModel, IAddDumbVariablesToPowerDescriptio
                 _triggeredEnemyIds.Add(enemyId);
                 Flash();
                 int markAmount = Amount > 1 ? 3 : 2;
-                ApplyMarkAction.Execute(enemy, markAmount);
+                _ = ApplyMarkAction.Execute(enemy, markAmount);
             }
         }
 

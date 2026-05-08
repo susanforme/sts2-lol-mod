@@ -1,11 +1,13 @@
 #nullable enable
 
+using BaseLib.Utils;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.Nodes.Ftue;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Ftue;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -29,9 +31,17 @@ public static class PlayerPopulateCombatStatePatch
         JhinMagazineState state = JhinMagazineStateRegistry.GetOrCreate(__instance);
         state.InitializeCombat();
 
-        BulletPower bulletPower = (BulletPower)ModelDb.Power<BulletPower>().ToMutable();
-        bulletPower.ApplyInternal(__instance.Creature, state.Bullets, silent: true);
-        state.AttachPower(bulletPower);
+        _ = ApplyBulletPowerAsync(__instance, state);
+    }
+
+    private static async Task ApplyBulletPowerAsync(Player player, JhinMagazineState state)
+    {
+        BulletPower? bulletPower = await CommonActions.Apply<BulletPower>(
+            new ThrowingPlayerChoiceContext(), player.Creature, null, state.Bullets, silent: true);
+        if (bulletPower is not null)
+        {
+            state.AttachPower(bulletPower);
+        }
     }
 }
 

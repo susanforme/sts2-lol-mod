@@ -23,11 +23,9 @@ public class Fatemaker() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        FatemakerPower power = (FatemakerPower)MegaCrit.Sts2.Core.Models.ModelDb.Power<FatemakerPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        return Task.CompletedTask;
+        await CommonActions.ApplySelf<FatemakerPower>(choiceContext, this, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()

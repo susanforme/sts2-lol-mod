@@ -3,7 +3,6 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using jhin.CardPools;
 using jhin.Powers;
@@ -29,12 +28,10 @@ public class GunMaintenance() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Reload),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        GunMaintenancePower power = (GunMaintenancePower)ModelDb.Power<GunMaintenancePower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        power.SubscribeEvents();
-        return Task.CompletedTask;
+        GunMaintenancePower? power = await CommonActions.ApplySelf<GunMaintenancePower>(choiceContext, this, IsUpgraded ? 2 : 1);
+        power?.SubscribeEvents();
     }
 
     protected override void OnUpgrade()

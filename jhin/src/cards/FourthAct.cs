@@ -39,7 +39,7 @@ public class FourthAct() : AbstractShootCard(
 
         if (IsFlourishShot)
         {
-            JhinCombatActionUtil.ApplyOrStackVulnerable(cardPlay.Target, IsUpgraded ? 4 : 3);
+            await JhinCombatActionUtil.ApplyOrStackVulnerable(cardPlay.Target, IsUpgraded ? 4 : 3);
         }
 
         EndFlourishContext();

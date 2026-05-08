@@ -31,8 +31,7 @@ public class FinalActReload() : AbstractJhinCard(
         ReloadAction.Execute(Owner);
         await JhinCombatActionUtil.Draw(choiceContext, Owner, 3);
 
-        ForcedFlourishPower forcedFlourish = (ForcedFlourishPower)MegaCrit.Sts2.Core.Models.ModelDb.Power<ForcedFlourishPower>().ToMutable();
-        forcedFlourish.ApplyInternal(Owner.Creature, 1, silent: false);
+        await CommonActions.ApplySelf<ForcedFlourishPower>(choiceContext, this, 1);
     }
 
     protected override void OnUpgrade()

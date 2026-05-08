@@ -3,7 +3,6 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using jhin.CardPools;
 using jhin.Powers;
@@ -28,11 +27,9 @@ public class ActorsInstinct() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ActorsInstinctPower power = (ActorsInstinctPower)ModelDb.Power<ActorsInstinctPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        return Task.CompletedTask;
+        await CommonActions.ApplySelf<ActorsInstinctPower>(choiceContext, this, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()

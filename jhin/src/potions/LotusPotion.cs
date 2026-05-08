@@ -27,17 +27,16 @@ public class LotusPotion : CustomPotionModel
     public override string? CustomPackedImagePath => Placeholders.Role;
     public override string? CustomPackedOutlinePath => Placeholders.Role;
 
-    protected override Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
+    protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        if (Owner.Creature?.CombatState is null) return Task.CompletedTask;
+        if (Owner.Creature?.CombatState is null) return;
 
         foreach (Creature enemy in Owner.Creature.CombatState.HittableEnemies)
         {
             if (enemy.IsAlive)
             {
-                ApplyLotusTrapAction.Execute(enemy, 2);
+                await ApplyLotusTrapAction.Execute(enemy, 2);
             }
         }
-        return Task.CompletedTask;
     }
 }

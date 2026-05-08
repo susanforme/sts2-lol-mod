@@ -38,7 +38,7 @@ public class LotusDevice : CustomRelicModel
         if (enemies.Count == 0) return Task.CompletedTask;
 
         Creature target = Owner.PlayerRng?.Transformations.NextItem(enemies) ?? enemies[0];
-        ApplyLotusTrapAction.Execute(target, 2);
+        _ = ApplyLotusTrapAction.Execute(target, 2);
         Flash();
         return Task.CompletedTask;
     }

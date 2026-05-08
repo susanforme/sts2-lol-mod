@@ -25,8 +25,7 @@ public class LensFocus() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 5 : 3);
-        await Task.CompletedTask;
+        await ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 5 : 3);
     }
 
     protected override void OnUpgrade()

@@ -45,7 +45,7 @@ public class LotusWorkshopPower : CustomPowerModel, IAddDumbVariablesToPowerDesc
             {
                 power.Flash();
                 int trapAmount = power.Amount > 1 ? 2 : 1;
-                ApplyLotusTrapAction.Execute(target, trapAmount);
+                _ = ApplyLotusTrapAction.Execute(target, trapAmount);
                 break;
             }
         }

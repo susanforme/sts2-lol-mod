@@ -22,11 +22,11 @@ public class MuzzleRhythmPower : CustomPowerModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [];
 
-    public override Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
+    public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner != Owner?.Player || cardPlay.Card.Type != CardType.Attack)
         {
-            return Task.CompletedTask;
+            return;
         }
 
         _attackCounter++;
@@ -34,14 +34,12 @@ public class MuzzleRhythmPower : CustomPowerModel
         {
             _attackCounter = 0;
             Flash();
-            JhinCombatActionUtil.ApplyOrStackStrength(Owner, 1);
+            await JhinCombatActionUtil.ApplyOrStackStrength(Owner, 1);
 
             if (Amount > 1)
             {
-                JhinCombatActionUtil.ApplyOrStackDexterity(Owner, 1);
+                await JhinCombatActionUtil.ApplyOrStackDexterity(Owner, 1);
             }
         }
-
-        return Task.CompletedTask;
     }
 }

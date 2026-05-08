@@ -17,11 +17,9 @@ public class FinalActForeshadowing() : AbstractJhinCard(
 {
     protected override IEnumerable<MegaCrit.Sts2.Core.Localization.DynamicVars.DynamicVar> CanonicalVars => [];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        FinalActForeshadowingPower power = (FinalActForeshadowingPower)MegaCrit.Sts2.Core.Models.ModelDb.Power<FinalActForeshadowingPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        return Task.CompletedTask;
+        await CommonActions.ApplySelf<FinalActForeshadowingPower>(choiceContext, this, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()

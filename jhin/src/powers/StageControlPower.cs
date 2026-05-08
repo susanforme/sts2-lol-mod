@@ -47,7 +47,7 @@ public class StageControlPower : CustomPowerModel, IAddDumbVariablesToPowerDescr
             {
                 int markAmount = stageControl.Amount > 1 ? 2 : 1;
                 stageControl.Flash();
-                ApplyMarkAction.Execute(target, markAmount);
+                _ = ApplyMarkAction.Execute(target, markAmount);
                 break;
             }
         }

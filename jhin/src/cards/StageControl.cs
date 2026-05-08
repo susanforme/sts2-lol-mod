@@ -3,7 +3,6 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using jhin.CardPools;
 using jhin.Powers;
@@ -28,11 +27,9 @@ public class StageControl() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Mark),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        StageControlPower power = (StageControlPower)ModelDb.Power<StageControlPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        return Task.CompletedTask;
+        await CommonActions.ApplySelf<StageControlPower>(choiceContext, this, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()

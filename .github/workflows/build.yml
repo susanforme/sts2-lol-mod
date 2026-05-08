@@ -98,6 +98,7 @@ jobs:
           $zip = "$PWD\dist\jhin-$branch-$time.zip"
           Compress-Archive -Path "dist\$env:MOD_ID\*" -DestinationPath $zip
           echo "ZIP=$zip" >> $env:GITHUB_ENV
+          echo "RELEASE_NAME=jhin-$branch-$time" >> $env:GITHUB_ENV
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -108,6 +109,6 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: jhin-${{ github.run_number }}
-          name: JhinMod build ${{ github.run_number }}
+          tag_name: ${{ env.RELEASE_NAME }}
+          name: ${{ env.RELEASE_NAME }}
           files: ${{ env.ZIP }}

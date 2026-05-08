@@ -42,6 +42,6 @@ public class AudienceCheerPower : CustomPowerModel, IAddDumbVariablesToPowerDesc
 
         Flash();
         int dexAmount = Amount > 1 ? 2 : 1;
-        JhinCombatActionUtil.ApplyOrStackDexterity(Owner!, dexAmount);
+        _ = JhinCombatActionUtil.ApplyOrStackDexterity(Owner!, dexAmount);
     }
 }

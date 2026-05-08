@@ -51,7 +51,7 @@ public class DeadlyFlourish() : AbstractShootCard(
         if (hadMark)
         {
             int vulnerableAmount = IsFlourishShot ? (IsUpgraded ? 3 : 2) : (IsUpgraded ? 2 : 1);
-            JhinCombatActionUtil.ApplyOrStackVulnerable(cardPlay.Target, vulnerableAmount);
+            await JhinCombatActionUtil.ApplyOrStackVulnerable(cardPlay.Target, vulnerableAmount);
         }
 
         EndFlourishContext();

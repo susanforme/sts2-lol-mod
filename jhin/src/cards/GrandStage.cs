@@ -31,7 +31,7 @@ public class GrandStage() : AbstractJhinCard(
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
-        ApplyLotusTrapAction.ExecuteAllEnemies(Owner, 1);
+        await ApplyLotusTrapAction.ExecuteAllEnemies(Owner, 1);
     }
 
     protected override void OnUpgrade()

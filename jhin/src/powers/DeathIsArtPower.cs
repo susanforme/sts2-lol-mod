@@ -40,7 +40,7 @@ public class DeathIsArtPower : CustomPowerModel, IAddDumbVariablesToPowerDescrip
                 power._triggeredEnemies.Add(enemy);
                 power.Flash();
                 int strAmount = power.Amount > 1 ? 2 : 1;
-                JhinCombatActionUtil.ApplyOrStackStrength(creature, strAmount);
+                _ = JhinCombatActionUtil.ApplyOrStackStrength(creature, strAmount);
             }
         }
     }

@@ -35,28 +35,26 @@ public class IntermissionPower : CustomPowerModel, IAddDumbVariablesToPowerDescr
         return Task.CompletedTask;
     }
 
-    public override Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
+    public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (_triggeredThisTurn)
         {
-            return Task.CompletedTask;
+            return;
         }
 
         if (cardPlay.Card.Owner != Owner.Player || cardPlay.Card.Type != CardType.Attack)
         {
-            return Task.CompletedTask;
+            return;
         }
 
         if (cardPlay.Card is Cards.AbstractShootCard)
         {
-            return Task.CompletedTask;
+            return;
         }
 
         _triggeredThisTurn = true;
         Flash();
         int bonusDamage = Amount > 1 ? 5 : 3;
-        Actions.JhinCombatActionUtil.ApplyOrStackStrength(Owner, bonusDamage);
-
-        return Task.CompletedTask;
+        await Actions.JhinCombatActionUtil.ApplyOrStackStrength(Owner, bonusDamage);
     }
 }

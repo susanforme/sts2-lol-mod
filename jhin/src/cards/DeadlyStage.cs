@@ -34,12 +34,10 @@ public class DeadlyStage() : AbstractJhinCard(
         {
             if (enemy.IsAlive)
             {
-                ApplyMarkAction.Execute(enemy, amount);
-                ApplyLotusTrapAction.Execute(enemy, amount);
+                await ApplyMarkAction.Execute(enemy, amount);
+                await ApplyLotusTrapAction.Execute(enemy, amount);
             }
         }
-
-        await Task.CompletedTask;
     }
 
     protected override void OnUpgrade()

@@ -23,12 +23,10 @@ public class AudienceCheer() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        AudienceCheerPower power = (AudienceCheerPower)MegaCrit.Sts2.Core.Models.ModelDb.Power<AudienceCheerPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        power.SubscribeEvents();
-        return Task.CompletedTask;
+        AudienceCheerPower? power = await CommonActions.ApplySelf<AudienceCheerPower>(choiceContext, this, IsUpgraded ? 2 : 1);
+        power?.SubscribeEvents();
     }
 
     protected override void OnUpgrade()

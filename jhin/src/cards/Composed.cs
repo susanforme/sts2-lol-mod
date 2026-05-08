@@ -3,7 +3,6 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using jhin.CardPools;
 using jhin.Powers;
@@ -28,12 +27,10 @@ public class Composed() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ComposedPower power = (ComposedPower)ModelDb.Power<ComposedPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, 1, silent: false);
-        power.SubscribeEvents();
-        return Task.CompletedTask;
+        ComposedPower? power = await CommonActions.ApplySelf<ComposedPower>(choiceContext, this, 1);
+        power?.SubscribeEvents();
     }
 
     protected override void OnUpgrade()

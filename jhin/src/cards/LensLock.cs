@@ -41,11 +41,11 @@ public class LensLock() : AbstractShootCard(
 
         if (savedMarkAmount > 0)
         {
-            ApplyMarkAction.Execute(cardPlay.Target, savedMarkAmount);
+            await ApplyMarkAction.Execute(cardPlay.Target, savedMarkAmount);
         }
 
         int extraMark = IsFlourishShot ? (IsUpgraded ? 4 : 3) : (IsUpgraded ? 3 : 2);
-        ApplyMarkAction.Execute(cardPlay.Target, extraMark);
+        await ApplyMarkAction.Execute(cardPlay.Target, extraMark);
 
         EndFlourishContext();
     }

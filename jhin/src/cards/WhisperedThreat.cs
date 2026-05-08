@@ -38,7 +38,7 @@ public class WhisperedThreat() : AbstractJhinCard(
         }
 
         await CommonActions.CardAttack(this, cardPlay.Target, DynamicVars.Damage.IntValue, 1, null, null, null).Execute(choiceContext);
-        ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 2 : 1);
+        await ApplyMarkAction.Execute(cardPlay.Target, IsUpgraded ? 2 : 1);
     }
 
     protected override PileType GetResultPileType() => PileType.Exhaust;

@@ -25,8 +25,7 @@ public class HiddenMechanism() : AbstractJhinCard(
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ApplyLotusTrapAction.Execute(cardPlay.Target, IsUpgraded ? 4 : 3);
-        await Task.CompletedTask;
+        await ApplyLotusTrapAction.Execute(cardPlay.Target, IsUpgraded ? 4 : 3);
     }
 
     protected override void OnUpgrade()

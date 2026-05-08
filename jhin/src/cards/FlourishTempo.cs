@@ -24,11 +24,9 @@ public class FlourishTempo() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        FlourishTempoPower power = (FlourishTempoPower)MegaCrit.Sts2.Core.Models.ModelDb.Power<FlourishTempoPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        return Task.CompletedTask;
+        await CommonActions.ApplySelf<FlourishTempoPower>(choiceContext, this, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()

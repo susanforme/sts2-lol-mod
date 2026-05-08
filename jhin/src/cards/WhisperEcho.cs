@@ -23,12 +23,10 @@ public class WhisperEcho() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        WhisperEchoPower power = (WhisperEchoPower)MegaCrit.Sts2.Core.Models.ModelDb.Power<WhisperEchoPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        power.SubscribeEvents();
-        return Task.CompletedTask;
+        WhisperEchoPower? power = await CommonActions.ApplySelf<WhisperEchoPower>(choiceContext, this, IsUpgraded ? 2 : 1);
+        power?.SubscribeEvents();
     }
 
     protected override void OnUpgrade()

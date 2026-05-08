@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using jhin.Magazine;
@@ -71,79 +70,46 @@ public static class JhinCombatActionUtil
         JhinMagazineStateRegistry.TryGet(player)?.ForceNextShotFlourish();
     }
 
-    public static void ApplyOrStackVulnerable(Creature? target, int amount)
+    public static async Task ApplyOrStackVulnerable(Creature? target, int amount)
     {
         if (target is null || amount <= 0 || !target.IsAlive || !target.CanReceivePowers)
         {
             return;
         }
 
-        VulnerablePower? existingPower = target.GetPower<VulnerablePower>();
-        if (existingPower is not null)
-        {
-            existingPower.SetAmount(existingPower.Amount + amount, silent: false);
-            return;
-        }
-
-        VulnerablePower vulnerablePower = (VulnerablePower)ModelDb.Power<VulnerablePower>().ToMutable();
-        vulnerablePower.ApplyInternal(target, amount, silent: false);
+        await CommonActions.Apply<VulnerablePower>(new ThrowingPlayerChoiceContext(), target, null, amount);
     }
 
-    public static void ApplyOrStackWeak(Creature? target, int amount, Creature? weakSource = null)
+    public static async Task ApplyOrStackWeak(Creature? target, int amount, Creature? weakSource = null)
     {
         if (target is null || amount <= 0 || !target.IsAlive || !target.CanReceivePowers)
         {
             return;
         }
 
-        WeakPower? existingPower = target.GetPower<WeakPower>();
-        if (existingPower is not null)
-        {
-            existingPower.SetAmount(existingPower.Amount + amount, silent: false);
-        }
-        else
-        {
-            WeakPower weakPower = (WeakPower)ModelDb.Power<WeakPower>().ToMutable();
-            weakPower.ApplyInternal(target, amount, silent: false);
-        }
+        await CommonActions.Apply<WeakPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
 
         StageControlPower.TryApplyMarkOnWeak(target, weakSource);
     }
 
-    public static void ApplyOrStackStrength(Creature? target, int amount)
+    public static async Task ApplyOrStackStrength(Creature? target, int amount)
     {
         if (target is null || amount <= 0 || !target.IsAlive || !target.CanReceivePowers)
         {
             return;
         }
 
-        StrengthPower? existingPower = target.GetPower<StrengthPower>();
-        if (existingPower is not null)
-        {
-            existingPower.SetAmount(existingPower.Amount + amount, silent: false);
-            return;
-        }
-
-        StrengthPower strengthPower = (StrengthPower)ModelDb.Power<StrengthPower>().ToMutable();
-        strengthPower.ApplyInternal(target, amount, silent: false);
+        await CommonActions.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
     }
 
-    public static void ApplyOrStackDexterity(Creature? target, int amount)
+    public static async Task ApplyOrStackDexterity(Creature? target, int amount)
     {
         if (target is null || amount <= 0 || !target.IsAlive || !target.CanReceivePowers)
         {
             return;
         }
 
-        DexterityPower? existingPower = target.GetPower<DexterityPower>();
-        if (existingPower is not null)
-        {
-            existingPower.SetAmount(existingPower.Amount + amount, silent: false);
-            return;
-        }
-
-        DexterityPower dexterityPower = (DexterityPower)ModelDb.Power<DexterityPower>().ToMutable();
-        dexterityPower.ApplyInternal(target, amount, silent: false);
+        await CommonActions.Apply<DexterityPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
     }
 
     public static bool HasPlayedSkillThisTurn(Player? player)

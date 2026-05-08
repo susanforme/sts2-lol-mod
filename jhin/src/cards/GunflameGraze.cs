@@ -40,7 +40,7 @@ public class GunflameGraze() : AbstractShootCard(
         await PerformShootAttack(choiceContext, cardPlay.Target);
 
         int weakAmount = IsFlourishShot ? (IsUpgraded ? 3 : 2) : 1;
-        JhinCombatActionUtil.ApplyOrStackWeak(cardPlay.Target, weakAmount, Owner.Creature);
+        await JhinCombatActionUtil.ApplyOrStackWeak(cardPlay.Target, weakAmount, Owner.Creature);
 
         EndFlourishContext();
     }

@@ -31,7 +31,7 @@ public class SetTrap() : AbstractJhinCard(
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
-        ApplyLotusTrapAction.Execute(cardPlay.Target, 1);
+        await ApplyLotusTrapAction.Execute(cardPlay.Target, 1);
     }
 
     protected override void OnUpgrade()

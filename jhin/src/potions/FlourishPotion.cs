@@ -33,11 +33,9 @@ public class FlourishPotion : CustomPotionModel
 
     public override string? CustomPackedOutlinePath => Placeholders.Role;
 
-    protected override Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
+    protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        ForcedFlourishPower power = (ForcedFlourishPower)ModelDb.Power<ForcedFlourishPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, 1, silent: false);
+        await CommonActions.Apply<ForcedFlourishPower>(choiceContext, Owner.Creature, null, 1);
         Actions.JhinCombatActionUtil.ForceNextShotFlourish(Owner);
-        return Task.CompletedTask;
     }
 }

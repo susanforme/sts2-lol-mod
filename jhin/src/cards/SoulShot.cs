@@ -44,11 +44,11 @@ public class SoulShot() : AbstractShootCard(
 
         await PerformShootAttack(choiceContext, cardPlay.Target);
 
-        ApplyMarkAction.Execute(cardPlay.Target, IsFlourishShot ? 4 : 2);
+        await ApplyMarkAction.Execute(cardPlay.Target, IsFlourishShot ? 4 : 2);
 
         if (IsFlourishShot)
         {
-            JhinCombatActionUtil.ApplyOrStackVulnerable(cardPlay.Target, 3);
+            await JhinCombatActionUtil.ApplyOrStackVulnerable(cardPlay.Target, 3);
         }
 
         if (cardPlay.Target is not null && !cardPlay.Target.IsAlive)

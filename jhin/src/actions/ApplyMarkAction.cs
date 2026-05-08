@@ -1,37 +1,29 @@
 #nullable enable
 
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
-using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using jhin.Powers;
 
 namespace jhin.Actions;
 
 public static class ApplyMarkAction
 {
-    public static bool Execute(Creature? target, int amount)
+    public static async Task<bool> Execute(Creature? target, int amount)
     {
         if (target is null || amount <= 0 || !target.IsAlive || !target.CanReceivePowers)
         {
             return false;
         }
 
-        MarkPower? existingPower = target.GetPower<MarkPower>();
-        if (existingPower is not null)
-        {
-            existingPower.AddStacks(amount);
-        }
-        else
-        {
-            MarkPower markPower = (MarkPower)ModelDb.Power<MarkPower>().ToMutable();
-            markPower.ApplyInternal(target, amount, silent: false);
-        }
+        await CommonActions.Apply<MarkPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
 
         LotusWorkshopPower.TryTrigger(target);
         return true;
     }
 
-    public static Creature? ExecuteRandomEnemy(Player? player, int amount)
+    public static async Task<Creature?> ExecuteRandomEnemy(Player? player, int amount)
     {
         if (player?.Creature?.CombatState is null || amount <= 0)
         {
@@ -53,6 +45,6 @@ public static class ApplyMarkAction
             return null;
         }
 
-        return Execute(target, amount) ? target : null;
+        return await Execute(target, amount) ? target : null;
     }
 }

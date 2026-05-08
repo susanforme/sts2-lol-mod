@@ -32,14 +32,12 @@ public class BarrelCalibration() : AbstractJhinCard(
 
         bool hadMark = ShootAction.GetMarkAmount(cardPlay.Target) > 0;
         int markAmount = IsUpgraded ? 3 : 2;
-        ApplyMarkAction.Execute(cardPlay.Target, markAmount);
+        await ApplyMarkAction.Execute(cardPlay.Target, markAmount);
 
         if (hadMark)
         {
             _ = MegaCrit.Sts2.Core.Commands.PlayerCmd.GainEnergy(IsUpgraded ? 2m : 1m, Owner);
         }
-
-        await Task.CompletedTask;
     }
 
     protected override PileType GetResultPileType() => PileType.Exhaust;

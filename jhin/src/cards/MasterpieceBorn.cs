@@ -23,11 +23,9 @@ public class MasterpieceBorn() : AbstractJhinCard(
         HoverTipFactory.FromKeyword(JhinKeywords.Mark),
     ];
 
-    protected override Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        MasterpieceBornPower power = (MasterpieceBornPower)MegaCrit.Sts2.Core.Models.ModelDb.Power<MasterpieceBornPower>().ToMutable();
-        power.ApplyInternal(Owner.Creature, IsUpgraded ? 2 : 1, silent: false);
-        return Task.CompletedTask;
+        await CommonActions.ApplySelf<MasterpieceBornPower>(choiceContext, this, IsUpgraded ? 2 : 1);
     }
 
     protected override void OnUpgrade()
