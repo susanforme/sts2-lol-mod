@@ -14,6 +14,8 @@ namespace jhin.Actions;
 
 public static class JhinCombatActionUtil
 {
+    internal static readonly ThrowingPlayerChoiceContext SharedThrowingContext = new();
+
     public static Task Draw(PlayerChoiceContext choiceContext, Player? player, int amount)
     {
         ArgumentNullException.ThrowIfNull(choiceContext);
@@ -79,7 +81,7 @@ public static class JhinCombatActionUtil
             return;
         }
 
-        await CommonActions.Apply<VulnerablePower>(new ThrowingPlayerChoiceContext(), target, null, amount);
+        await CommonActions.Apply<VulnerablePower>(SharedThrowingContext, target, null, amount);
     }
 
     public static async Task ApplyOrStackWeak(Creature? target, int amount, Creature? weakSource = null)
@@ -89,7 +91,7 @@ public static class JhinCombatActionUtil
             return;
         }
 
-        await CommonActions.Apply<WeakPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
+        await CommonActions.Apply<WeakPower>(SharedThrowingContext, target, null, amount);
 
         StageControlPower.TryApplyMarkOnWeak(target, weakSource);
     }
@@ -101,7 +103,7 @@ public static class JhinCombatActionUtil
             return;
         }
 
-        await CommonActions.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
+        await CommonActions.Apply<StrengthPower>(SharedThrowingContext, target, null, amount);
     }
 
     public static async Task ApplyOrStackDexterity(Creature? target, int amount)
@@ -111,7 +113,7 @@ public static class JhinCombatActionUtil
             return;
         }
 
-        await CommonActions.Apply<DexterityPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
+        await CommonActions.Apply<DexterityPower>(SharedThrowingContext, target, null, amount);
     }
 
     public static bool HasPlayedSkillThisTurn(Player? player)

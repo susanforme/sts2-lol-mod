@@ -17,7 +17,7 @@ public static class ApplyLotusTrapAction
             return false;
         }
 
-        await CommonActions.Apply<LotusTrapPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
+        await CommonActions.Apply<LotusTrapPower>(JhinCombatActionUtil.SharedThrowingContext, target, null, amount);
         return true;
     }
 

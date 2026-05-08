@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using jhin.Actions;
 using jhin.Utils;
 
 namespace jhin.Powers;
@@ -112,7 +113,7 @@ public class LotusTrapPower : CustomPowerModel, IAddDumbVariablesToPowerDescript
 
     private static async Task ApplyOrStackWeak(Creature target, int amount)
     {
-        await CommonActions.Apply<WeakPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
+        await CommonActions.Apply<WeakPower>(JhinCombatActionUtil.SharedThrowingContext, target, null, amount);
 
         StageControlPower.TryApplyMarkOnWeak(target, target);
     }

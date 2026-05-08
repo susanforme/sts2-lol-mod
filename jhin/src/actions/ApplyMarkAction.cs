@@ -17,7 +17,7 @@ public static class ApplyMarkAction
             return false;
         }
 
-        await CommonActions.Apply<MarkPower>(new ThrowingPlayerChoiceContext(), target, null, amount);
+        await CommonActions.Apply<MarkPower>(JhinCombatActionUtil.SharedThrowingContext, target, null, amount);
 
         LotusWorkshopPower.TryTrigger(target);
         return true;

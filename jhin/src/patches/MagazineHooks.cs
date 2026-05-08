@@ -37,7 +37,7 @@ public static class PlayerPopulateCombatStatePatch
     private static async Task ApplyBulletPowerAsync(Player player, JhinMagazineState state)
     {
         BulletPower? bulletPower = await CommonActions.Apply<BulletPower>(
-            new ThrowingPlayerChoiceContext(), player.Creature, null, state.Bullets, silent: true);
+            JhinCombatActionUtil.SharedThrowingContext, player.Creature, null, state.Bullets, silent: true);
         if (bulletPower is not null)
         {
             state.AttachPower(bulletPower);
