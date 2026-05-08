@@ -39,7 +39,7 @@ public class LotusDetonation() : AbstractJhinCard(
         int perStackDamage = IsUpgraded ? 8 : 6;
         int totalDamage = stacks * perStackDamage;
 
-        cardPlay.Target.RemovePowerInternal(trapPower);
+        await PowerCmd.Remove(trapPower);
         await CreatureCmd.Damage(choiceContext, cardPlay.Target, totalDamage, ValueProp.Move, Owner.Creature, this);
     }
 

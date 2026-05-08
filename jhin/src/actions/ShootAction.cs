@@ -1,5 +1,6 @@
 #nullable enable
 
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using jhin.Magazine;
@@ -39,7 +40,7 @@ public static class ShootAction
         }
 
         int consumedCount = markPower.Amount;
-        target.RemovePowerInternal(markPower);
+        _ = PowerCmd.Remove(markPower);
 
         if (player is not null && consumedCount > 0)
         {

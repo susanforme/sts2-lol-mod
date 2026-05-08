@@ -75,7 +75,7 @@ public class LotusTrapPower : CustomPowerModel, IAddDumbVariablesToPowerDescript
             QueuePendingWeak(target, stacks * WeakPerStack);
         }
 
-        target.RemovePowerInternal(this);
+        await PowerCmd.Remove(this);
     }
 
     public static void ApplyPendingWeak(CombatSide endedSide)

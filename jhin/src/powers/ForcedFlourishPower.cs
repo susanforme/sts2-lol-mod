@@ -1,6 +1,7 @@
 #nullable enable
 
 using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -21,14 +22,13 @@ public class ForcedFlourishPower : CustomPowerModel
         HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
     ];
 
-    public override Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
+    public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner != Owner.Player || cardPlay.Card is not AbstractShootCard)
         {
-            return Task.CompletedTask;
+            return;
         }
 
-        Owner.RemovePowerInternal(this);
-        return Task.CompletedTask;
+        await PowerCmd.Remove(this);
     }
 }
