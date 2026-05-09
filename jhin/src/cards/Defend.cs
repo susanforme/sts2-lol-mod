@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.CardPools;
+using jhin.Extensions;
 
 namespace jhin.Cards;
 
@@ -17,6 +18,8 @@ public class Defend() : AbstractJhinCard(
     rarity: CardRarity.Basic,
     target: TargetType.Self)
 {
+    protected override string PortraitResourcePath => "Card/JHIN-DEFEND.png".ImagePath();
+
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5, ValueProp.Move)];

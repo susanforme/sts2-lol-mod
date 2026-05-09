@@ -10,7 +10,9 @@ namespace jhin.Cards;
 public abstract class AbstractJhinCard(int cost, CardType type, CardRarity rarity, TargetType target)
     : CustomCardModel(cost, type, rarity, target)
 {
-    public override string CustomPortraitPath => Placeholders.Card;
-    public override string PortraitPath => Placeholders.Card;
-    public override string BetaPortraitPath => Placeholders.Card;
+    protected virtual string PortraitResourcePath => Placeholders.Card;
+
+    public override string CustomPortraitPath => PortraitResourcePath;
+    public override string PortraitPath => PortraitResourcePath;
+    public override string BetaPortraitPath => PortraitResourcePath;
 }

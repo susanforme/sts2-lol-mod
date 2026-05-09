@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.CardPools;
+using jhin.Extensions;
 
 namespace jhin.Cards;
 
@@ -19,6 +20,8 @@ public class CommonShot() : AbstractShootCard(
     rarity: CardRarity.Basic,
     target: TargetType.AnyEnemy), ITranscendenceCard
 {
+    protected override string PortraitResourcePath => "Card/JHIN-COMMON_SHOT.png".ImagePath();
+
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6, ValueProp.Move)];

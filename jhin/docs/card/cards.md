@@ -4,9 +4,9 @@
 
 | 美术 | ID | 中文名 | 英文名 | 类型 | 费用 | 稀有度 | 目标 | 文件 | 当前效果摘要 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  | `JHIN-STRIKE` | 打击 | Strike | 攻击 | `1` | 基础 | 单体敌人 | `src/cards/Strike.cs` | 基础攻击牌，造成单体伤害。 |
-|  | `JHIN-DEFEND` | 防御 | Defend | 技能 | `1` | 基础 | 自身 | `src/cards/Defend.cs` | 基础防御牌，获得格挡。 |
-|  | `JHIN-COMMON_SHOT` | 普通射击 | Common Shot | 攻击 / 射击 | `1` | 普通 | 单体敌人 | `src/cards/CommonShot.cs` | 消耗 1 层子弹，造成基础射击伤害。 |
+| 1 | `JHIN-STRIKE` | 打击 | Strike | 攻击 | `1` | 基础 | 单体敌人 | `src/cards/Strike.cs` | 基础攻击牌，造成单体伤害。 |
+| 1 | `JHIN-DEFEND` | 防御 | Defend | 技能 | `1` | 基础 | 自身 | `src/cards/Defend.cs` | 基础防御牌，获得格挡。 |
+| 1 | `JHIN-COMMON_SHOT` | 普通射击 | Common Shot | 攻击 / 射击 | `1` | 普通 | 单体敌人 | `src/cards/CommonShot.cs` | 消耗 1 层子弹，造成基础射击伤害。 |
 |  | `JHIN-PERFECT_SHOT` | 精准一枪 | Perfect Shot | 攻击 / 射击 | `1` | 普通 | 单体敌人 | `src/cards/PerfectShot.cs` | 射击造成更高单体伤害；华彩时回能，升级后还会抽牌。 |
 |  | `JHIN-WHISPER_BURST` | 低语点射 | Whisper Burst | 攻击 / 射击 | `0` | 普通 | 单体敌人 | `src/cards/WhisperBurst.cs` | 0 费射击牌，消耗 1 层子弹造成伤害。 |
 |  | `JHIN-GRACEFUL_FOOTWORK` | 优雅走位 | Graceful Footwork | 技能 | `1` | 普通 | 自身 | `src/cards/GracefulFootwork.cs` | 获得格挡；若本回合已使用过射击牌，再获得额外格挡。 |
