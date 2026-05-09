@@ -2,15 +2,17 @@ name: Build JhinMod
 permissions:
   contents: write
 on:
-  push:
-    branches: [main, master]
-    paths:
-      - 'jhin/**'
-  pull_request:
-    branches: [main, master]
-    paths:
-      - 'jhin/**'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Mod version (e.g. 0.1.0)'
+        required: true
+      tag_name:
+        description: 'Release tag (e.g. v0.1.0)'
+        required: true
+      release_name:
+        description: 'Release name (optional, defaults to tag)'
+        required: false
 
 env:
   DOTNET_NOLOGO: true
@@ -83,7 +85,7 @@ jobs:
             name = "Jhin"
             author = "桃花笑春风"
             description = "Jhin character mod for Slay the Spire 2."
-            version = "0.1.0"
+            version = "${{ github.event.inputs.version }}"
             has_dll = $true
             has_pck = $true
             dependencies = @("BaseLib")
@@ -93,16 +95,19 @@ jobs:
       - name: Package zip
         shell: pwsh
         run: |
-          $branch = "${{ github.ref_name }}" -replace '[\\/:*?"<>|]', '-'
-          $time = Get-Date -Format "yyyyMMdd-HHmmss"
-          $zip = "$PWD\dist\jhin-$branch-$time.zip"
-          $baseLibZip = "$PWD\dist\BaseLib.zip"
+          $tag = "${{ github.event.inputs.tag_name }}"
+          $safeTag = $tag -replace '[\\/:*?"<>|]', '-'
+          $releaseName = "${{ github.event.inputs.release_name }}"
+          if ([string]::IsNullOrWhiteSpace($releaseName)) { $releaseName = $tag }
+          $zip = "$PWD\dist\jhin-$safeTag.zip"
+          $baseLibZip = "$PWD\dist\BaseLib-$safeTag.zip"
           Compress-Archive -Path "dist\$env:MOD_ID\*" -DestinationPath $zip
           if (Test-Path $baseLibZip) { Remove-Item $baseLibZip -Force }
           Compress-Archive -Path "lib\BaseLib\*" -DestinationPath $baseLibZip
           echo "ZIP=$zip" >> $env:GITHUB_ENV
           echo "BASELIB_ZIP=$baseLibZip" >> $env:GITHUB_ENV
-          echo "RELEASE_NAME=jhin-$branch-$time" >> $env:GITHUB_ENV
+          echo "RELEASE_TAG=$tag" >> $env:GITHUB_ENV
+          echo "RELEASE_NAME=$releaseName" >> $env:GITHUB_ENV
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -115,7 +120,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.RELEASE_NAME }}
+          tag_name: ${{ env.RELEASE_TAG }}
           name: ${{ env.RELEASE_NAME }}
           files: |
             ${{ env.ZIP }}
