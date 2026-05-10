@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Actions;
 using jhin.CardPools;
+using jhin.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,6 +21,8 @@ public class AimShot() : AbstractShootCard(
     rarity: CardRarity.Common,
     target: TargetType.AnyEnemy)
 {
+    protected override string PortraitResourcePath => "Card/JHIN-AIM_SHOT.png".ImagePath();
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

@@ -13,9 +13,9 @@ namespace jhin.Powers;
 
 public class ForcedFlourishPower : CustomPowerModel
 {
-    public override string CustomPackedIconPath => "Card/JHIN-FORCED_FLOURISH_POWER.png".ImagePath();
-    public override string CustomBigIconPath => "Card/JHIN-FORCED_FLOURISH_POWER.png".ImagePath();
-    public override string CustomBigBetaIconPath => "Card/JHIN-FORCED_FLOURISH_POWER.png".ImagePath();
+    public override string CustomPackedIconPath => "JHIN-FORCED_FLOURISH_POWER.png".PowerImagePath();
+    public override string CustomBigIconPath => "JHIN-FORCED_FLOURISH_POWER.png".PowerImagePath();
+    public override string CustomBigBetaIconPath => "JHIN-FORCED_FLOURISH_POWER.png".PowerImagePath();
 
     public override PowerType Type => PowerType.Buff;
 

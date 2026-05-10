@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxgheaooauxn0"
-path="res://.godot/imported/captive _audience.png-84f6df96310cac6fdb3897b1e4618e8e.ctex"
+uid="uid://d0jj1gt4edfry"
+path="res://.godot/imported/JHIN-AUDIENCE_SEATED_POWER.png-65ca07bbbcbc93f9027a1b8551973922.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://JhinMod/Images/captive _audience.png"
-dest_files=["res://.godot/imported/captive _audience.png-84f6df96310cac6fdb3897b1e4618e8e.ctex"]
+source_file="res://JhinMod/Images/Power/JHIN-AUDIENCE_SEATED_POWER.png"
+dest_files=["res://.godot/imported/JHIN-AUDIENCE_SEATED_POWER.png-65ca07bbbcbc93f9027a1b8551973922.ctex"]
 
 [params]
 

@@ -4,6 +4,7 @@ using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.HoverTips;
 using jhin.Actions;
+using jhin.Extensions;
 
 namespace jhin.Powers;
 
@@ -14,6 +15,10 @@ namespace jhin.Powers;
 /// </summary>
 public class AudienceSeatedPower : CustomPowerModel
 {
+    public override string CustomPackedIconPath => "JHIN-AUDIENCE_SEATED_POWER.png".PowerImagePath();
+    public override string CustomBigIconPath => "JHIN-AUDIENCE_SEATED_POWER.png".PowerImagePath();
+    public override string CustomBigBetaIconPath => "JHIN-AUDIENCE_SEATED_POWER.png".PowerImagePath();
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 

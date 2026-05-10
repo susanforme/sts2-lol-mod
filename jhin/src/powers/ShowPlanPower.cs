@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Actions;
+using jhin.Extensions;
 using jhin.Magazine;
 
 namespace jhin.Powers;
@@ -20,6 +21,10 @@ namespace jhin.Powers;
 /// </summary>
 public class ShowPlanPower : CustomPowerModel, IAddDumbVariablesToPowerDescription
 {
+    public override string CustomPackedIconPath => "JHIN-SHOW_PLAN_POWER.png".PowerImagePath();
+    public override string CustomBigIconPath => "JHIN-SHOW_PLAN_POWER.png".PowerImagePath();
+    public override string CustomBigBetaIconPath => "JHIN-SHOW_PLAN_POWER.png".PowerImagePath();
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 

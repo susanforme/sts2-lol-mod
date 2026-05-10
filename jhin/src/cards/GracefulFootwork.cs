@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.Actions;
 using jhin.CardPools;
+using jhin.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,6 +22,8 @@ public class GracefulFootwork() : AbstractJhinCard(
     rarity: CardRarity.Common,
     target: TargetType.Self)
 {
+    protected override string PortraitResourcePath => "Card/JHIN-GRACEFUL_FOOTWORK.png".ImagePath();
+
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5, ValueProp.Move)];

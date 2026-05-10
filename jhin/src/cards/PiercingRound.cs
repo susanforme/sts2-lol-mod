@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using jhin.CardPools;
+using jhin.Extensions;
 
 namespace jhin.Cards;
 
@@ -18,6 +19,8 @@ public class PiercingRound() : AbstractShootCard(
     rarity: CardRarity.Common,
     target: TargetType.AllEnemies)
 {
+    protected override string PortraitResourcePath => "Card/JHIN-PIERCING_ROUND.png".ImagePath();
+
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5, ValueProp.Move)];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>

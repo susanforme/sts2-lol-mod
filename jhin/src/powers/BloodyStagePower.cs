@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using jhin.Actions;
+using jhin.Extensions;
 using jhin.Utils;
 
 namespace jhin.Powers;
@@ -20,6 +21,10 @@ namespace jhin.Powers;
 /// </summary>
 public class BloodyStagePower : CustomPowerModel, IAddDumbVariablesToPowerDescription
 {
+    public override string CustomPackedIconPath => "JHIN-BLOODY_STAGE_P.png".PowerImagePath();
+    public override string CustomBigIconPath => "JHIN-BLOODY_STAGE_P.png".PowerImagePath();
+    public override string CustomBigBetaIconPath => "JHIN-BLOODY_STAGE_P.png".PowerImagePath();
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 

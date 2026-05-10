@@ -231,3 +231,5 @@ table=card_keywords key=JHIN-MARK.description variables={energyPrefix:}
 - [x] 优化遗物 机制(每当弹匣填满抽一张牌.需要在弹匣没满的时候) 需要注意原有卡牌中的就需要删除
 
 - [x] 将莲花陷阱和标记合二为一 不能合并!!!!
+
+乐章这个可能可以做合计绝技如果1234都打出来.就可以获得海量奖励

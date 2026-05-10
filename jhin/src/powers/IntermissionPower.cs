@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
+using jhin.Extensions;
 
 namespace jhin.Powers;
 
@@ -17,6 +18,10 @@ namespace jhin.Powers;
 /// </summary>
 public class IntermissionPower : CustomPowerModel, IAddDumbVariablesToPowerDescription
 {
+    public override string CustomPackedIconPath => "JHIN-INTERMISSION_POWER.png".PowerImagePath();
+    public override string CustomBigIconPath => "JHIN-INTERMISSION_POWER.png".PowerImagePath();
+    public override string CustomBigBetaIconPath => "JHIN-INTERMISSION_POWER.png".PowerImagePath();
+
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
