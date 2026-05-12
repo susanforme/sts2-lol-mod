@@ -69,6 +69,11 @@ public static class JhinVfx
         };
     }
 
+    public static ColorRect CreateLine(Color color, Vector2 center, Vector2 size)
+    {
+        return CreateRect(color, center - (size / 2.0f), size);
+    }
+
     public static void SetAlpha(ColorRect? rect, float alpha)
     {
         if (rect is null)

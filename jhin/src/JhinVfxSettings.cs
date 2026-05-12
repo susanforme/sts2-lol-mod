@@ -21,5 +21,10 @@ public static class JhinVfxSettings
         /// Local gain for flourish SFX before game SFX bus attenuation is applied.
         /// </summary>
         public const float FlourishVolumeDb = -4.0f;
+
+        /// <summary>
+        /// Local gain for Curtain Call shot SFX.
+        /// </summary>
+        public const float CurtainCallShotVolumeDb = -5.0f;
     }
 }
