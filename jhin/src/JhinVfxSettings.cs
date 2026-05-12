@@ -4,8 +4,8 @@ namespace jhin;
 
 /// <summary>
 /// Centralized presentation tuning for Jhin visual/audio effects.
-/// Audio volume is applied on top of the game's audio buses, so both the game
-/// sound settings and these mod-local values affect the final output.
+/// Audio volume is applied on top of the game's public settings save values,
+/// so both the game sound settings and these mod-local values affect output.
 /// </summary>
 public static class JhinVfxSettings
 {
@@ -21,18 +21,5 @@ public static class JhinVfxSettings
         /// Local gain for flourish SFX before game SFX bus attenuation is applied.
         /// </summary>
         public const float FlourishVolumeDb = -4.0f;
-
-        /// <summary>
-        /// Preferred Godot audio bus names used by STS2 for sound effects.
-        /// We try them in order and fall back to the default player bus if none exist.
-        /// </summary>
-        public static readonly IReadOnlyList<string> PreferredSfxBusNames =
-        [
-            "SFX",
-            "Sfx",
-            "sfx",
-            "Sound",
-            "Sounds",
-        ];
     }
 }

@@ -1,6 +1,7 @@
 #nullable enable
 
 using Godot;
+using MegaCrit.Sts2.Core.Saves;
 
 namespace jhin.Actions;
 
@@ -12,6 +13,8 @@ namespace jhin.Actions;
 public static class JhinVfx
 {
     public const int DefaultOverlayLayer = 512;
+
+    private static readonly Dictionary<string, AudioStream> AudioCache = [];
 
     public static Node? GetSceneRoot()
     {
@@ -98,17 +101,15 @@ public static class JhinVfx
             return;
         }
 
-        AudioStream? stream = ResourceLoader.Load<AudioStream>(resourcePath);
+        AudioStream? stream = LoadAudioStream(resourcePath);
         if (stream is null)
         {
-            MainFile.Logger.Warn($"Jhin audio skipped: failed to load {resourcePath}.");
             return;
         }
 
         AudioStreamPlayer player = new()
         {
             Stream = stream,
-            Bus = ResolveSfxBusName(),
             VolumeDb = GetEffectiveSfxVolumeDb(volumeDb),
         };
 
@@ -117,22 +118,38 @@ public static class JhinVfx
         player.Play();
     }
 
-    public static float GetEffectiveSfxVolumeDb(float localVolumeDb)
+    private static AudioStream? LoadAudioStream(string resourcePath)
     {
-        return JhinVfxSettings.Audio.MasterVolumeDb + localVolumeDb;
-    }
-
-    private static string ResolveSfxBusName()
-    {
-        foreach (string busName in JhinVfxSettings.Audio.PreferredSfxBusNames)
+        if (AudioCache.TryGetValue(resourcePath, out AudioStream? cachedStream))
         {
-            int busIndex = AudioServer.GetBusIndex(busName);
-            if (busIndex >= 0)
-            {
-                return busName;
-            }
+            return cachedStream;
         }
 
-        return string.Empty;
+        AudioStream? stream = ResourceLoader.Load<AudioStream>(resourcePath);
+        if (stream is null)
+        {
+            MainFile.Logger.Warn($"Jhin audio skipped: failed to load {resourcePath}.");
+            return null;
+        }
+
+        AudioCache[resourcePath] = stream;
+        return stream;
+    }
+
+    public static float GetEffectiveSfxVolumeDb(float localVolumeDb)
+    {
+        float effectiveLinearVolume = GetGameSfxLinearVolume() * DbToLinear(JhinVfxSettings.Audio.MasterVolumeDb + localVolumeDb);
+        return effectiveLinearVolume <= 0.0f ? -80.0f : Mathf.LinearToDb(effectiveLinearVolume);
+    }
+
+    private static float GetGameSfxLinearVolume()
+    {
+        SettingsSave settings = SaveManager.Instance.SettingsSave;
+        return Mathf.Clamp(settings.VolumeMaster * settings.VolumeSfx, 0.0f, 1.0f);
+    }
+
+    private static float DbToLinear(float db)
+    {
+        return Mathf.Pow(10.0f, db / 20.0f);
     }
 }
