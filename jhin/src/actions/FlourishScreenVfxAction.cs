@@ -37,7 +37,7 @@ public static class FlourishScreenVfxAction
             return;
         }
 
-        JhinVfx.PlayOneShotAudio(JhinAssets.Audio.Placeholder, volumeDb: -4.0f);
+        JhinVfx.PlayOneShotAudio(JhinAssets.Audio.Placeholder, JhinVfxSettings.Audio.FlourishVolumeDb);
         MainFile.Logger.Info("Flourish: full-screen VFX triggered.");
     }
 }

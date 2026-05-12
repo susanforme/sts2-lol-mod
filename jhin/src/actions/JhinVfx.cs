@@ -108,11 +108,31 @@ public static class JhinVfx
         AudioStreamPlayer player = new()
         {
             Stream = stream,
-            VolumeDb = volumeDb,
+            Bus = ResolveSfxBusName(),
+            VolumeDb = GetEffectiveSfxVolumeDb(volumeDb),
         };
 
         player.Finished += player.QueueFree;
         root.AddChild(player);
         player.Play();
+    }
+
+    public static float GetEffectiveSfxVolumeDb(float localVolumeDb)
+    {
+        return JhinVfxSettings.Audio.MasterVolumeDb + localVolumeDb;
+    }
+
+    private static string ResolveSfxBusName()
+    {
+        foreach (string busName in JhinVfxSettings.Audio.PreferredSfxBusNames)
+        {
+            int busIndex = AudioServer.GetBusIndex(busName);
+            if (busIndex >= 0)
+            {
+                return busName;
+            }
+        }
+
+        return string.Empty;
     }
 }
