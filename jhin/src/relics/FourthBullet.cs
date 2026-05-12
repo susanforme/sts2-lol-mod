@@ -27,17 +27,20 @@ public class FourthBullet : AbstractJhinRelic
 
     public bool HasPendingFlourishDamageBonus => !_triggeredThisCombat;
 
-    public override Task BeforeCombatStart()
+    protected override Task OnBeforeCombatStart()
     {
         _triggeredThisCombat = false;
-        Actions.FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
         return Task.CompletedTask;
     }
 
-    public override Task AfterCombatEnd(MegaCrit.Sts2.Core.Rooms.CombatRoom room)
+    protected override void SubscribeEventHandlers()
+    {
+        Actions.FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
+    }
+
+    protected override void UnsubscribeEventHandlers()
     {
         Actions.FlourishEventBus.OnFlourishTriggered -= OnFlourishTriggered;
-        return Task.CompletedTask;
     }
 
     private void OnFlourishTriggered(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext choiceContext, MegaCrit.Sts2.Core.Entities.Players.Player player, Magazine.JhinMagazineState state)

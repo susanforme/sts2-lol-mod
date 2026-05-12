@@ -26,7 +26,7 @@ public class JhinMask : AbstractJhinRelic
         HoverTipFactory.FromKeyword(JhinKeywords.Mark),
     ];
 
-    public override Task BeforeCombatStart()
+    protected override Task OnBeforeCombatStart()
     {
         var combatState = Owner.Creature.CombatState;
         if (combatState is null)

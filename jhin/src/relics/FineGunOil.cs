@@ -31,17 +31,20 @@ public class FineGunOil : AbstractJhinRelic
 
     public bool HasPendingShootBonus => _nextShootBoosted;
 
-    public override Task BeforeCombatStart()
+    protected override Task OnBeforeCombatStart()
     {
         _nextShootBoosted = false;
-        Actions.ReloadEventBus.OnReloadTriggered += OnReloadTriggered;
         return Task.CompletedTask;
     }
 
-    public override Task AfterCombatEnd(MegaCrit.Sts2.Core.Rooms.CombatRoom room)
+    protected override void SubscribeEventHandlers()
+    {
+        Actions.ReloadEventBus.OnReloadTriggered += OnReloadTriggered;
+    }
+
+    protected override void UnsubscribeEventHandlers()
     {
         Actions.ReloadEventBus.OnReloadTriggered -= OnReloadTriggered;
-        return Task.CompletedTask;
     }
 
     private void OnReloadTriggered(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state, int bulletsBeforeReload)

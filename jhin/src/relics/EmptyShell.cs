@@ -31,16 +31,14 @@ public class EmptyShell : AbstractJhinRelic
         HoverTipFactory.FromKeyword(JhinKeywords.Bullet),
     ];
 
-    public override Task BeforeCombatStart()
+    protected override void SubscribeEventHandlers()
     {
         BulletEmptyEventBus.OnBulletEmptied += OnBulletEmptied;
-        return Task.CompletedTask;
     }
 
-    public override Task AfterCombatEnd(MegaCrit.Sts2.Core.Rooms.CombatRoom room)
+    protected override void UnsubscribeEventHandlers()
     {
         BulletEmptyEventBus.OnBulletEmptied -= OnBulletEmptied;
-        return Task.CompletedTask;
     }
 
     private void OnBulletEmptied(MegaCrit.Sts2.Core.Entities.Players.Player player, JhinMagazineState state)

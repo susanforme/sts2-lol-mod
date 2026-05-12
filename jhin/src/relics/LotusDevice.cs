@@ -26,7 +26,7 @@ public class LotusDevice : AbstractJhinRelic
         HoverTipFactory.FromKeyword(JhinKeywords.LotusTrap),
     ];
 
-    public override Task BeforeCombatStart()
+    protected override Task OnBeforeCombatStart()
     {
         if (Owner?.Creature?.CombatState is null) return Task.CompletedTask;
 

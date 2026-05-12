@@ -35,16 +35,14 @@ public class Whisper : AbstractJhinRelic
         HoverTipFactory.FromKeyword(JhinKeywords.Reload),
     ];
 
-    public override Task BeforeCombatStart()
+    protected override void SubscribeEventHandlers()
     {
         ReloadEventBus.OnReloadTriggered += OnReloadTriggered;
-        return Task.CompletedTask;
     }
 
-    public override Task AfterCombatEnd(MegaCrit.Sts2.Core.Rooms.CombatRoom room)
+    protected override void UnsubscribeEventHandlers()
     {
         ReloadEventBus.OnReloadTriggered -= OnReloadTriggered;
-        return Task.CompletedTask;
     }
 
     private void OnReloadTriggered(PlayerChoiceContext choiceContext, Player player, JhinMagazineState state, int bulletsBeforeReload)

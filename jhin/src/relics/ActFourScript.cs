@@ -25,16 +25,14 @@ public class ActFourScript : AbstractJhinRelic
         HoverTipFactory.FromKeyword(JhinKeywords.Flourish),
     ];
 
-    public override Task BeforeCombatStart()
+    protected override void SubscribeEventHandlers()
     {
         Actions.FlourishEventBus.OnFlourishTriggered += OnFlourishTriggered;
-        return Task.CompletedTask;
     }
 
-    public override Task AfterCombatEnd(MegaCrit.Sts2.Core.Rooms.CombatRoom room)
+    protected override void UnsubscribeEventHandlers()
     {
         Actions.FlourishEventBus.OnFlourishTriggered -= OnFlourishTriggered;
-        return Task.CompletedTask;
     }
 
     private void OnFlourishTriggered(MegaCrit.Sts2.Core.GameActions.Multiplayer.PlayerChoiceContext choiceContext, MegaCrit.Sts2.Core.Entities.Players.Player player, Magazine.JhinMagazineState state)
