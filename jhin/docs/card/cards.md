@@ -22,7 +22,7 @@
 | 1 | `JHIN-INTERMISSION_KILL` | 幕间点杀 | Intermission Kill | 攻击 | `1` | 普通 | 单体敌人 | `src/cards/IntermissionKill.cs` | 造成伤害；若目标带有标记，获得格挡。 |
 |  | `JHIN-ENCORE_BULLET` | 余兴弹 | Encore Bullet | 攻击 / 射击 | `1` | 普通 | 单体敌人 | `src/cards/EncoreBullet.cs` | 射击造成伤害；若本回合已使用过技能牌，额外造成伤害。 |
 | 1 | `JHIN-WHISPERED_THREAT` | 低声威胁 | Whispered Threat | 攻击 | `0` | 普通 | 单体敌人 | `src/cards/WhisperedThreat.cs` | 0 费攻击，造成伤害并给予标记；使用后消耗。 |
-|  | `JHIN-SET_THE_STAGE` | 布置舞台 | Set the Stage | 技能 | `1` | 普通 | 自身 | `src/cards/SetTheStage.cs` | 获得格挡，并给随机敌人施加标记。 |
+| 1 | `JHIN-SET_THE_STAGE` | 布置舞台 | Set the Stage | 技能 | `1` | 普通 | 自身 | `src/cards/SetTheStage.cs` | 获得格挡，并给随机敌人施加标记。 |
 |  | `JHIN-CALCULATED_PLAN` | 精密计算 | Calculated Plan | 技能 | `1` | 普通 | 自身 | `src/cards/CalculatedPlan.cs` | 抽 2 张牌；在子弹为 1，升级后为 1 或 0 时回能。 |
 |  | `JHIN-BACKSTEP` | 后撤步 | Backstep | 技能 | `0` | 普通 | 自身 | `src/cards/Backstep.cs` | 获得少量格挡；若本回合已射击则抽 1 张牌。 |
 |  | `JHIN-SET_TRAP` | 设下陷阱 | Set a Trap | 技能 | `1` | 普通 | 单体敌人 | `src/cards/SetTrap.cs` | 获得格挡，并给予目标莲花陷阱。 |
