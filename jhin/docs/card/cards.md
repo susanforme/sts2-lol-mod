@@ -12,14 +12,14 @@
 | 1 | `JHIN-GRACEFUL_FOOTWORK` | 优雅走位 | Graceful Footwork | 技能 | `1` | 普通 | 自身 | `src/cards/GracefulFootwork.cs` | 获得格挡；若本回合已使用过射击牌，再获得额外格挡。 |
 | 1 | `JHIN-AIM_SHOT` | 瞄准射击 | Aim Shot | 攻击 / 射击 | `1` | 罕见 | 单体敌人 | `src/cards/AimShot.cs` | 射击造成伤害，并给予目标标记。 |
 | 1 | `JHIN-PIERCING_ROUND` | 穿透弹 | Piercing Round | 攻击 / 射击 | `1` | 普通 | 全体敌人 | `src/cards/PiercingRound.cs` | 消耗 1 层子弹，对所有敌人造成射击伤害。 |
-|  | `JHIN-DANCING_GRENADE` | 曼舞手雷 | Dancing Grenade | 攻击 | `2` | 稀有 | 随机敌人 | `src/cards/DancingGrenade.cs` | 随机命中 1 名敌人后最多弹跳 4 次；每次弹跳都会提高伤害，击杀时还会让下一跳额外增伤。 |
+| 1 | `JHIN-DANCING_GRENADE` | 曼舞手雷 | Dancing Grenade | 攻击 | `2` | 稀有 | 随机敌人 | `src/cards/DancingGrenade.cs` | 随机命中 1 名敌人后最多弹跳 4 次；每次弹跳都会提高伤害，击杀时还会让下一跳额外增伤。 |
 | 1 | `JHIN-FINISH_OFF` | 收尾 | Finish Off | 攻击 | `1` | 罕见 | 单体敌人 | `src/cards/FinishOff.cs` | 对半血以下目标造成更高伤害。 |
 | 1 | `JHIN-ART_SLICE` | 艺术切割 | Art Slice | 攻击 | `1` | 普通 | 单体敌人 | `src/cards/ArtSlice.cs` | 造成伤害；若目标带有虚弱，追加额外伤害。 |
 | 1 | `JHIN-SIDESTEP_FIRE` | 侧身开火 | Sidestep Fire | 攻击 / 射击 | `1` | 普通 | 单体敌人 | `src/cards/SidestepFire.cs` | 射击造成伤害并获得格挡。 |
 | 1 | `JHIN-QUICK_DRAW` | 快速拔枪 | Quick Draw | 攻击 / 射击 | `1` | 普通 | 单体敌人 | `src/cards/QuickDraw.cs` | 射击造成伤害并抽 1 张牌。 |
 | 1 | `JHIN-REHEARSAL_SHOT` | 试演一枪 | Rehearsal Shot | 攻击 / 射击 | `1` | 罕见 | 单体敌人 | `src/cards/RehearsalShot.cs` | 射击造成伤害；若不是最后一发子弹则抽 1 张牌。 |
 | 1 | `JHIN-GUNFLAME_GRAZE` | 枪焰擦伤 | Gunflame Graze | 攻击 / 射击 | `1` | 普通 | 单体敌人 | `src/cards/GunflameGraze.cs` | 射击造成伤害并施加虚弱；华彩时施加更多层。 |
-|  | `JHIN-INTERMISSION_KILL` | 幕间点杀 | Intermission Kill | 攻击 | `1` | 普通 | 单体敌人 | `src/cards/IntermissionKill.cs` | 造成伤害；若目标带有标记，获得格挡。 |
+| 1 | `JHIN-INTERMISSION_KILL` | 幕间点杀 | Intermission Kill | 攻击 | `1` | 普通 | 单体敌人 | `src/cards/IntermissionKill.cs` | 造成伤害；若目标带有标记，获得格挡。 |
 |  | `JHIN-ENCORE_BULLET` | 余兴弹 | Encore Bullet | 攻击 / 射击 | `1` | 普通 | 单体敌人 | `src/cards/EncoreBullet.cs` | 射击造成伤害；若本回合已使用过技能牌，额外造成伤害。 |
 | 1 | `JHIN-WHISPERED_THREAT` | 低声威胁 | Whispered Threat | 攻击 | `0` | 普通 | 单体敌人 | `src/cards/WhisperedThreat.cs` | 0 费攻击，造成伤害并给予标记；使用后消耗。 |
 |  | `JHIN-SET_THE_STAGE` | 布置舞台 | Set the Stage | 技能 | `1` | 普通 | 自身 | `src/cards/SetTheStage.cs` | 获得格挡，并给随机敌人施加标记。 |
